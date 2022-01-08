@@ -166,6 +166,18 @@ md5sums+=("SKIP"
           "SKIP"
           "SKIP")
 
+source+=("0009-XANMOD-lib-kconfig.debug-disable-default-CONFIG_SYMB.patch"
+         "0010-XANMOD-init-Kconfig-Enable-O3-KBUILD_CFLAGS-optimiza.patch"
+         "0011-XANMOD-Makefile-Turn-off-loop-vectorization-for-GCC-.patch"
+         "0012-XANMOD-fair-Remove-all-energy-efficiency-functions.patch")
+md5sums+=("SKIP"
+          "SKIP"
+          "SKIP"
+          "SKIP")
+
+source+=("more-uarches-for-kernel-5.15+.patch")
+md5sums+=("SKIP")
+
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
@@ -348,6 +360,13 @@ prepare(){
   scripts/config --enable CONFIG_PCIE_BUS_PERFORMANCE
 
   sleep 2s
+
+  msg2 "Enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3"
+  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
+  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_SIZE
+  scripts/config --enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+
+  sleep 2s  
 
   msg2 "Set timer frequency to 1000HZ"
   scripts/config --enable CONFIG_HZ_1000
