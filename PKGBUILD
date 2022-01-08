@@ -69,7 +69,7 @@ for _p in "${pkgname[@]}"; do
 done
 pkgver=5.15.13
 major=5.15
-pkgrel=1
+pkgrel=2
 arch=(x86_64)
 url="https://www.kernel.org/"
 license=(GPL-2.0)
@@ -478,9 +478,9 @@ build(){
   # make -j$(nproc) all
   msg2 "make -j$(nproc) all..."
   if [[ "$_compiler" = "1" ]]; then
-    make ARCH=${ARCH} CC=${CC} CXX=${CXX} HOSTCC=${HOSTCC} HOSTCXX=${HOSTCXX} -j$(nproc) bzImage modules
+    make ARCH=${ARCH} CC=${CC} CXX=${CXX} HOSTCC=${HOSTCC} HOSTCXX=${HOSTCXX} -j$(nproc) all
   elif [[ "$_compiler" = "2" ]]; then
-    make ARCH=${ARCH} CC=${CC} CXX=${CXX} LLVM=1 LLVM_IAS=1 HOSTCC=${HOSTCC} HOSTCXX=${HOSTCXX} -j$(nproc) bzImage modules
+    make ARCH=${ARCH} CC=${CC} CXX=${CXX} LLVM=1 LLVM_IAS=1 HOSTCC=${HOSTCC} HOSTCXX=${HOSTCXX} -j$(nproc) all
   fi
 }
 
