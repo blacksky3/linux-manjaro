@@ -13,6 +13,7 @@
 #Credits: Philip Müller <philm[at]manjaro[dot]org>
 #Credits: Tobias Powalowski <tpowa@archlinux.org>
 #Credits: Thomas Baechler <thomas@archlinux.org>
+#Credits: Con Kolivas <kernel@kolivas.org> <http://ck.kolivas.org/> ---> For hrtimer patches
 
 
 ################################# Arch ################################
@@ -485,7 +486,7 @@ build(){
 }
 
 _package(){
-  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support). Ashmem and binder are enabled"
+  pkgdesc="The Linux kernel and modules with Manjaro patches, ck's hrtimer patches and some of XanMod patches (Bootsplash support). Ashmem and binder are enabled"
   depends=("coreutils" "kmod" "initramfs" "mkinitcpio")
   optdepends=("linux-firmware: firmware images needed for some devices"
               "crda: to set the correct wireless channels of your country"
