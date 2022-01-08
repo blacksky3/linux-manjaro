@@ -477,6 +477,8 @@ _package(){
 
   local kernver="$(<version)"
   local modulesdir="${pkgdir}"/usr/lib/modules/${kernver}
+  
+  mkdir -p "${pkgdir}"/{boot}
 
   msg2 "Installing boot image..."
   # systemd expects to find the kernel here to allow hibernation
