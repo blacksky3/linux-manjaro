@@ -436,7 +436,7 @@ prepare(){
   scripts/setlocalversion --save-scmversion
   echo "-${pkgbase}" > localversion
 
-  msg "Don't run depmod on make install..."
+  msg2 "Don't run depmod on make install..."
   # We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
 
