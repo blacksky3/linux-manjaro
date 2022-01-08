@@ -147,6 +147,23 @@ md5sums+=('SKIP'
           'SKIP'
           'SKIP'
           'SKIP')
+          
+source+=("0001-hrtimer-Create-highres-timeout-variants-of-schedule_.patch"
+         "0002-time-Special-case-calls-of-schedule_timeout-1-to-use.patch"
+         "0003-timer-Convert-msleep-to-use-hrtimers-when-active.patch"
+         "0004-hrtimer-Replace-all-schedule-timeout-1-with-schedule.patch"
+         "0005-hrtimer-Replace-all-calls-to-schedule_timeout_interr.patch"
+         "0006-hrtimer-Replace-all-calls-to-schedule_timeout_uninte.patch"
+         "0007-time-Don-t-use-hrtimer-overlay-when-pm_freezing-sinc.patch"
+         "0008-clockevents-hrtimer-Make-hrtimer-granularity-and-min.patch")
+md5sums+=("SKIP"
+          "SKIP"
+          "SKIP"
+          "SKIP"
+          "SKIP"
+          "SKIP"
+          "SKIP"
+          "SKIP")
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
