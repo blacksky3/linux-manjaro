@@ -477,7 +477,8 @@ _package(){
 
   local kernver="$(<version)"
   local modulesdir="${pkgdir}"/usr/lib/modules/${kernver}
-  
+
+  msg2 "Create /boot dir in pkg/ dir..."  
   mkdir -p "${pkgdir}"/boot
 
   msg2 "Installing boot image..."
@@ -506,7 +507,7 @@ _package(){
 
   # make room for external modules
   msg2 "Make room for external modules..."
-  local _extramodules="extramodules-${kernver}-${pkgbase}"
+  local extramodules="extramodules-${kernver}-${pkgbase}"
   ln -s "../${extramodules}" "${pkgdir}/usr/lib/modules/${kernver}/extramodules"
 
   # add real version for building modules and running depmod from hook
