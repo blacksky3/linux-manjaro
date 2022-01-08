@@ -68,6 +68,7 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 pkgver=5.15.13
+major=5.15
 pkgrel=1
 arch=(x86_64)
 url="https://www.kernel.org/"
@@ -487,6 +488,7 @@ _package(){
   # Used by mkinitcpio to name the kernel
   msg2 "echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase""
   echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
+  echo "${_basekernel}-${CARCH}" | install -Dm644 /dev/stdin "$modulesdir/kernelbase"
 
   msg2 "Installing modules..."
   if [[ "$_compiler" = "1" ]]; then
