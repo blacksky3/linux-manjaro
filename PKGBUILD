@@ -488,7 +488,7 @@ _package(){
   # Used by mkinitcpio to name the kernel
   msg2 "echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase""
   echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
-  echo "${_basekernel}-${CARCH}" | install -Dm644 /dev/stdin "$modulesdir/kernelbase"
+  echo "${major}-${CARCH}" | install -Dm644 /dev/stdin "$modulesdir/kernelbase"
 
   msg2 "Installing modules..."
   if [[ "$_compiler" = "1" ]]; then
