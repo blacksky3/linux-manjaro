@@ -433,6 +433,8 @@ prepare(){
 
   msg2 "Disable -MANJARO in localversion"
   scripts/config --disable CONFIG_LOCALVERSION
+  
+  sleep 2s
 
   msg2 "Add anbox support"
   scripts/config --enable CONFIG_ASHMEM
