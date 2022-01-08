@@ -501,7 +501,9 @@ _package(){
 
   # add kernel version
   msg2 "Add kernel version..."
-  echo "${pkgver}-${pkgbase} ${CARCH}" > "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
+  touch "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
+  #echo "${pkgver}-${pkgbase} ${CARCH}" > "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
+  echo "${pkgver}-${pkgbase} x64" > "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
 
   # make room for external modules
   msg2 "Make room for external modules..."
