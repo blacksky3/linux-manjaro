@@ -69,7 +69,7 @@ for _p in "${pkgname[@]}"; do
 done
 pkgver=5.15.13
 major=5.15
-pkgrel=2
+pkgrel=1
 arch=(x86_64)
 url="https://www.kernel.org/"
 license=(GPL-2.0)
