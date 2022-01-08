@@ -478,7 +478,7 @@ _package(){
   local kernver="$(<version)"
   local modulesdir="${pkgdir}"/usr/lib/modules/${kernver}
   
-  mkdir -p "${pkgdir}"/{boot}
+  mkdir -p "${pkgdir}"/boot
 
   msg2 "Installing boot image..."
   # systemd expects to find the kernel here to allow hibernation
@@ -501,7 +501,6 @@ _package(){
 
   # add kernel version
   msg2 "Add kernel version..."
-  touch "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
   #echo "${pkgver}-${pkgbase} ${CARCH}" > "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
   echo "${pkgver}-${pkgbase} x64" > "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
 
