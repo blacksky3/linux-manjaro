@@ -169,10 +169,8 @@ md5sums+=("SKIP"
 
 source+=("0009-XANMOD-lib-kconfig.debug-disable-default-CONFIG_SYMB.patch"
          "0010-XANMOD-init-Kconfig-Enable-O3-KBUILD_CFLAGS-optimiza.patch"
-         "0011-XANMOD-Makefile-Turn-off-loop-vectorization-for-GCC-.patch"
-         "0012-XANMOD-fair-Remove-all-energy-efficiency-functions.patch")
+         "0011-XANMOD-Makefile-Turn-off-loop-vectorization-for-GCC-.patch")
 md5sums+=("SKIP"
-          "SKIP"
           "SKIP"
           "SKIP")
 
