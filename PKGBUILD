@@ -100,26 +100,26 @@ source+=(# ARCH Patches
          '0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch'
          '0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch'
          '0108-drm_i915_Add_workaround_numbers_to_GEN7_COMMON_SLICE_CHICKEN1_whitelisting.patch::https://patchwork.freedesktop.org/patch/463650/raw/'
-        # Lenovo + AMD
-        '0201-lenovo-wmi2.patch'
-        # other patches
-        # Bootsplash
-        '0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
-        '0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch'
-        '0303-revert-fbcon-remove-soft-scrollback-code.patch'
-        '0401-bootsplash.patch'
-        '0402-bootsplash.patch'
-        '0403-bootsplash.patch'
-        '0404-bootsplash.patch'
-        '0405-bootsplash.patch'
-        '0406-bootsplash.patch'
-        '0407-bootsplash.patch'
-        '0408-bootsplash.patch'
-        '0409-bootsplash.patch'
-        '0410-bootsplash.patch'
-        '0411-bootsplash.patch'
-        '0412-bootsplash.patch'
-        '0413-bootsplash.gitpatch')
+         # Lenovo + AMD
+         '0201-lenovo-wmi2.patch'
+         # other patches
+         # Bootsplash
+         '0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
+         '0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch'
+         '0303-revert-fbcon-remove-soft-scrollback-code.patch'
+         '0401-bootsplash.patch'
+         '0402-bootsplash.patch'
+         '0403-bootsplash.patch'
+         '0404-bootsplash.patch'
+         '0405-bootsplash.patch'
+         '0406-bootsplash.patch'
+         '0407-bootsplash.patch'
+         '0408-bootsplash.patch'
+         '0409-bootsplash.patch'
+         '0410-bootsplash.patch'
+         '0411-bootsplash.patch'
+         '0412-bootsplash.patch'
+         '0413-bootsplash.gitpatch')
 md5sums+=('SKIP'
           'SKIP'
           'SKIP'
