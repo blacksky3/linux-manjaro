@@ -68,7 +68,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.15.13
+pkgver=5.16
 major=5.15
 pkgrel=1
 arch=(x86_64)
