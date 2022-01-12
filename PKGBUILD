@@ -88,25 +88,19 @@ md5sums=("SKIP"
 source+=(# ARCH Patches
          '0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch'
          '0002-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_special_driver-list.patch'
-         'PCI_Add_more_NVIDIA_controllers_to_the_MSI_masking_quirk.patch'
-         'iommu_intel_do_deep_dma-unmapping_to_avoid_kernel-flooding.patch'
-         'cpufreq_intel_pstate_ITMT_support_for_overclocked_system.patch'
-         'Bluetooth_btintel_Fix_bdaddress_comparison_with_garbage_value.patch'
-         'lg-laptop_Recognize_more_models.patch'
+         # Temp Fixes
          # MANJARO Patches
          '0101-i2c-nuvoton-nc677x-hwmon-driver.patch'
          #'0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch'
-         '0103-futex.patch' # https://github.com/sirlucjan/kernel-patches
-         '0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch'
+         #'0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch'
          '0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch'
-         '0108-drm_i915_Add_workaround_numbers_to_GEN7_COMMON_SLICE_CHICKEN1_whitelisting.patch::https://patchwork.freedesktop.org/patch/463650/raw/'
          # Lenovo + AMD
-         '0201-lenovo-wmi2.patch'
-         # other patches
+         #'0201-lenovo-wmi2.patch'
          # Bootsplash
-         '0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
-         '0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch'
-         '0303-revert-fbcon-remove-soft-scrollback-code.patch'
+         '0301-revert-garbage-collect-fbdev-scrolling-acceleration.patch'
+         '0302-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
+         '0303-revert-fbcon-remove-no-op-fbcon_set_origin.patch'
+         '0304-revert-fbcon-remove-soft-scrollback-code.patch'
          '0401-bootsplash.patch'
          '0402-bootsplash.patch'
          '0403-bootsplash.patch'
@@ -140,16 +134,9 @@ md5sums+=('SKIP'
           'SKIP'
           'SKIP'
           'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
           'SKIP')
-          
+
+
 source+=("0001-hrtimer-Create-highres-timeout-variants-of-schedule_.patch"
          "0002-time-Special-case-calls-of-schedule_timeout-1-to-use.patch"
          "0003-timer-Convert-msleep-to-use-hrtimers-when-active.patch"
@@ -365,7 +352,7 @@ prepare(){
   scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_SIZE
   scripts/config --enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
 
-  sleep 2s  
+  sleep 2s
 
   msg2 "Set timer frequency to 1000HZ"
   scripts/config --enable CONFIG_HZ_1000
@@ -431,7 +418,7 @@ prepare(){
 
   msg2 "Disable -MANJARO in localversion"
   scripts/config --disable CONFIG_LOCALVERSION
-  
+
   sleep 2s
 
   msg2 "Add anbox support"
@@ -498,7 +485,7 @@ _package(){
   local kernver="$(<version)"
   local modulesdir="${pkgdir}"/usr/lib/modules/${kernver}
 
-  msg2 "Create /boot dir in pkg/ dir..."  
+  msg2 "Create /boot dir in pkg/ dir..."
   mkdir -p "${pkgdir}"/boot
 
   msg2 "Installing boot image..."
