@@ -136,7 +136,6 @@ md5sums+=('SKIP'
           'SKIP'
           'SKIP')
 
-
 source+=("0001-hrtimer-Create-highres-timeout-variants-of-schedule_.patch"
          "0002-time-Special-case-calls-of-schedule_timeout-1-to-use.patch"
          "0003-timer-Convert-msleep-to-use-hrtimers-when-active.patch"
