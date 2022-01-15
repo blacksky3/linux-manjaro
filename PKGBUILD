@@ -9,12 +9,13 @@
 #Credits: Andreas Radke <andyrtr@archlinux.org> ---> For the base PKGBUILD
 #Credits: Linus Torvalds ---> For the linux kernel
 #Credits: Joan Figueras <ffigue at gmail dot com> ---> For the base PKFBUILD
-#Credits: Bernhard Landauer <bernhard@manjaro.org>
-#Credits: Philip Müller <philm[at]manjaro[dot]org>
+#Credits: Bernhard Landauer <bernhard@manjaro.org> ---> For the base PKFBUILD
+#Credits: Philip Müller <philm[at]manjaro[dot]org> ---> For the base PKFBUILD
 #Credits: Tobias Powalowski <tpowa@archlinux.org>
 #Credits: Thomas Baechler <thomas@archlinux.org>
-#Credits: Con Kolivas <kernel@kolivas.org> <http://ck.kolivas.org/> ---> For hrtimer patches
-
+#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For Block, Futex, BBR2 and CPU patches
+#Credits: Graysky2 <https://github.com/graysky2> ---> For kernel_compiler_patch
+#Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch> ---> For config setings
 
 ################################# Arch ################################
 
@@ -69,7 +70,8 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 pkgver=5.16
-major=5.15
+major=5.16
+manjaromajor=516
 pkgrel=1
 arch=(x86_64)
 url="https://www.kernel.org/"
@@ -85,83 +87,87 @@ source=("https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar
 md5sums=("SKIP"
          "SKIP")
 
+manjaropatchpath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/master
 source+=(# ARCH Patches
-         '0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch'
-         '0002-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_special_driver-list.patch'
+         "${manjaropatchpath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch"
+         "${manjaropatchpath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch"
          # Temp Fixes
          # MANJARO Patches
-         '0101-i2c-nuvoton-nc677x-hwmon-driver.patch'
-         #'0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch'
-         #'0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch'
-         '0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch'
+         "${manjaropatchpath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch"
+         #"${manjaropatchpath}/0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch"
+         #"${manjaropatchpath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch"
+         "${manjaropatchpath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch"
          # Lenovo + AMD
-         #'0201-lenovo-wmi2.patch'
+         #"${manjaropatchpath}/0201-lenovo-wmi2.patch"
          # Bootsplash
-         '0301-revert-garbage-collect-fbdev-scrolling-acceleration.patch'
-         '0302-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
-         '0303-revert-fbcon-remove-no-op-fbcon_set_origin.patch'
-         '0304-revert-fbcon-remove-soft-scrollback-code.patch'
-         '0401-bootsplash.patch'
-         '0402-bootsplash.patch'
-         '0403-bootsplash.patch'
-         '0404-bootsplash.patch'
-         '0405-bootsplash.patch'
-         '0406-bootsplash.patch'
-         '0407-bootsplash.patch'
-         '0408-bootsplash.patch'
-         '0409-bootsplash.patch'
-         '0410-bootsplash.patch'
-         '0411-bootsplash.patch'
-         '0412-bootsplash.patch'
-         '0413-bootsplash.gitpatch')
-md5sums+=('SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP'
-          'SKIP')
+         "${manjaropatchpath}/0301-revert-garbage-collect-fbdev-scrolling-acceleration.patch"
+         "${manjaropatchpath}/0302-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch"
+         "${manjaropatchpath}/0303-revert-fbcon-remove-no-op-fbcon_set_origin.patch"
+         "${manjaropatchpath}/0304-revert-fbcon-remove-soft-scrollback-code.patch"
+         "${manjaropatchpath}/0401-bootsplash.patch"
+         "${manjaropatchpath}/0402-bootsplash.patch"
+         "${manjaropatchpath}/0403-bootsplash.patch"
+         "${manjaropatchpath}/0404-bootsplash.patch"
+         "${manjaropatchpath}/0405-bootsplash.patch"
+         "${manjaropatchpath}/0406-bootsplash.patch"
+         "${manjaropatchpath}/0407-bootsplash.patch"
+         "${manjaropatchpath}/0408-bootsplash.patch"
+         "${manjaropatchpath}/0409-bootsplash.patch"
+         "${manjaropatchpath}/0410-bootsplash.patch"
+         "${manjaropatchpath}/0411-bootsplash.patch"
+         "${manjaropatchpath}/0412-bootsplash.patch"
+         "${manjaropatchpath}/0413-bootsplash.gitpatch")
+md5sums+=("42e898478e26b9c73180b9ca1b6eb511"  #0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
+          "4286ef22f0096f6a674a24434a0482fe"  #0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
+          "b855b885a36de3228cb4118fdf61224b"  #0101-i2c-nuvoton-nc677x-hwmon-driver.patch
+          "5a8e19711baad0d09d7c25c3e27d72b8"  #0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
+          "0f597205ea7b91f7024f0ac02ac96975"  #0301-revert-garbage-collect-fbdev-scrolling-acceleration.patch
+          "2496e6fc16f67b289f72ddc2ea2511cf"  #0302-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
+          "fed6ae4ac4c3f56178fa4aca6c934d6f"  #0303-revert-fbcon-remove-no-op-fbcon_set_origin.patch
+          "594d4f69b956eaab3336b4e01f42eda8"  #0304-revert-fbcon-remove-soft-scrollback-code.patch
+          "be5a873f638ff5c31947f8d28a824d3a"  #0401-bootsplash.patch
+          "b4acd66a564af83b5409738c40b4a566"  #0402-bootsplash.patch
+          "a6407dceae1838f5aa27450401a91be6"  #0403-bootsplash.patch
+          "cb78b1c11b917a4d31c4b1567183b76f"  #0404-bootsplash.patch
+          "3efea575da7f02ba94789d3b6b81e11f"  #0405-bootsplash.patch
+          "2529ad13791b259d80c9d5d702187a65"  #0406-bootsplash.patch
+          "cb296d7788098cf478c46c0d21376719"  #0407-bootsplash.patch
+          "50255aac36e002afa477e4527a0550af"  #0408-bootsplash.patch
+          "6b6def41b404422dc04b39e2f1adffc8"  #0409-bootsplash.patch
+          "1922e3a7727d2bf51641b98d6d354738"  #0410-bootsplash.patch
+          "d6b7e4e43e42128cf950251e0d0aee23"  #0411-bootsplash.patch
+          "ecfd8a30c480149005fcf349e4d06f4b"  #0412-bootsplash.patch
+          "2ead9aa2df230c83539e3ebf6b796b18") #0413-bootsplash.gitpatch
 
-source+=("0001-hrtimer-Create-highres-timeout-variants-of-schedule_.patch"
-         "0002-time-Special-case-calls-of-schedule_timeout-1-to-use.patch"
-         "0003-timer-Convert-msleep-to-use-hrtimers-when-active.patch"
-         "0004-hrtimer-Replace-all-schedule-timeout-1-with-schedule.patch"
-         "0005-hrtimer-Replace-all-calls-to-schedule_timeout_interr.patch"
-         "0006-hrtimer-Replace-all-calls-to-schedule_timeout_uninte.patch"
-         "0007-time-Don-t-use-hrtimer-overlay-when-pm_freezing-sinc.patch"
-         "0008-clockevents-hrtimer-Make-hrtimer-granularity-and-min.patch")
-md5sums+=("SKIP"
-          "SKIP"
-          "SKIP"
-          "SKIP"
-          "SKIP"
-          "SKIP"
-          "SKIP"
-          "SKIP")
+lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
+# Block patches. Set BFQ as default
+source+=("${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch"
+         "${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch"
+         "${lucjanpath}/block-patches-sep/0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch"
+         "${lucjanpath}/ll-patches/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch"
+         "${lucjanpath}/ll-patches/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch")
+md5sums+=("7536731ddb9db4d2683234d70edf5434"  #0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
+          "0ca0ee369847388683473c6e9eafa11f"  #0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
+          "86af2daa361caa182f55547c698f6472"  #0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch
+          "84587403cabe9e19bb4363a3ee4f35b8"  #0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
+          "bd5dbcdc69e376db7c62c30b29b6cf66") #0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
+# CPU patches
+source+=("${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch"
+         "${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch")
+md5sums+=("d9cb95351ab059c22c68067031367b84"  #0002-init-Kconfig-enable-O3-for-all-arches.patch
+          "45da2b5938474ff8e99fec9dc9596ea1") #0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
+# Futex
+source+=("${lucjanpath}/futex-patches/0001-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode.patch")
+md5sums+=("f24e3f6e117a166dbca54c6117b71e8b") #0001-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode.patch
+# BBR2
+source+=("${lucjanpath}/bbr2-patches-v2-sep/0001-bbr2-5.16-introduce-BBRv2.patch"
+         "${lucjanpath}/bbr2-patches-v2-sep/0002-bbr2-5.16-clean-up-forward-port.patch")
+md5sums+=("8444613ccc5dffc5c61217e21c659b80"  #0001-bbr2-5.16-introduce-BBRv2.patch
+          "1fd9b083a911edc65eb188027616663f") #0002-bbr2-5.16-clean-up-forward-port.patch
 
-source+=("0009-XANMOD-lib-kconfig.debug-disable-default-CONFIG_SYMB.patch"
-         "0010-XANMOD-init-Kconfig-Enable-O3-KBUILD_CFLAGS-optimiza.patch"
-         "0011-XANMOD-Makefile-Turn-off-loop-vectorization-for-GCC-.patch")
-md5sums+=("SKIP"
-          "SKIP"
-          "SKIP")
-
-source+=("more-uarches-for-kernel-5.15+.patch")
-md5sums+=("SKIP")
+# Graysky2 CPU patch
+source+=("https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch")
+md5sums+=("a28d20dbe481a55ac32ee4a64bee4fac") #more-uarches-for-kernel-5.15%2B.patch
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -170,6 +176,10 @@ export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EP
 prepare(){
 
   cd linux-$pkgver
+
+  # add upstream patch
+  #  msg2 "Add upstream patch"
+  #  patch -p1 -i "../patch-${pkgver}"
 
   # Apply any patch
   local src
@@ -181,8 +191,8 @@ prepare(){
     patch -Np1 < "../$src"
   done
 
-  msg2 "Apply 0413-bootsplash"
-  git apply -p1 < "../0413-bootsplash.gitpatch"
+  #msg2 "Apply 0413-bootsplash"
+  #git apply -p1 < "../0413-bootsplash.gitpatch"
 
   plain ""
 
@@ -309,7 +319,15 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Set CPU Frequency scaling CONFIG_CPU_FREQ_DEFAULT_GOV/CONFIG_CPU_FREQ_GOV for performance"
+  msg2 "Setting performance governor"
+  scripts/config --disable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
+  scripts/config --disable CONFIG_CPU_FREQ_GOV_SCHEDUTIL
+  scripts/config --enable CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+  scripts/config --enable CONFIG_CPU_FREQ_GOV_PERFORMANCE
+
+  sleep 2s
+
+  msg2 "Disabling uneeded governors"
   scripts/config --disable CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE
   scripts/config --disable CONFIG_CPU_FREQ_GOV_POWERSAVE
   scripts/config --disable CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE
@@ -320,8 +338,6 @@ prepare(){
   scripts/config --disable CONFIG_CPU_FREQ_GOV_CONSERVATIVE
   scripts/config --disable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
   scripts/config --disable CONFIG_CPU_FREQ_GOV_SCHEDUTIL
-  scripts/config --enable CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
-  scripts/config --enable CONFIG_CPU_FREQ_GOV_PERFORMANCE
 
   sleep 2s
 
@@ -346,51 +362,56 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3"
-  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
-  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_SIZE
-  scripts/config --enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
-
-  sleep 2s
-
   msg2 "Set timer frequency to 1000HZ"
   scripts/config --enable CONFIG_HZ_1000
   scripts/config --set-val CONFIG_HZ 1000
 
   sleep 2s
 
-  msg2 "Enable PREEMPT"
-  scripts/config --disable CONFIG_PREEMPT_NONE
-  scripts/config --disable CONFIG_PREEMPT_VOLUNTARY
-  scripts/config --enable CONFIG_PREEMPT
-  scripts/config --enable CONFIG_PREEMPT_COUNT
-  scripts/config --enable CONFIG_PREEMPTION
+  msg2 "Set to full tickless (by TK-Glitch)"
 
-  sleep 2s
+  #periodic ticks
+  #scripts/config --disable CONFIG_NO_HZ_FULL_NODEF
+  #scripts/config --disable CONFIG_NO_HZ_IDLE
+  #scripts/config --disable CONFIG_NO_HZ_FULL
+  #scripts/config --disable CONFIG_NO_HZ
+  #scripts/config --disable CONFIG_NO_HZ_COMMON
+  #scripts/config --enable CONFIG_HZ_PERIODIC
 
-  msg2 "Set to full tickless"
+  #full tickless
   scripts/config --disable CONFIG_HZ_PERIODIC
   scripts/config --disable CONFIG_NO_HZ_IDLE
+  scripts/config --disable CONFIG_CONTEXT_TRACKING_FORCE
+  scripts/config --enable CONFIG_NO_HZ_FULL_NODEF
   scripts/config --enable CONFIG_NO_HZ_FULL
   scripts/config --enable CONFIG_NO_HZ
   scripts/config --enable CONFIG_NO_HZ_COMMON
-  #scripts/config --enable CONFIG_CONTEXT_TRACKING
-  #scripts/config --disable CONFIG_CONTEXT_TRACKING_FORCE
+  scripts/config --enable CONFIG_CONTEXT_TRACKING
+
+  #tickless idle
+  #scripts/config --disable CONFIG_NO_HZ_FULL_NODEF
+  #scripts/config --disable CONFIG_HZ_PERIODIC
+  #scripts/config --disable CONFIG_NO_HZ_FULL
+  #scripts/config --enable CONFIG_NO_HZ_IDLE
+  #scripts/config --enable CONFIG_NO_HZ
+  #scripts/config --enable CONFIG_NO_HZ_COMMON
+
+  sleep 2s
+
+  msg2 "Disable some debugging (by TK-Glitch)"
+  scripts/config --disable CONFIG_SLUB_DEBUG
+  scripts/config --disable CONFIG_PM_DEBUG
+  scripts/config --disable CONFIG_PM_ADVANCED_DEBUG
+  scripts/config --disable CONFIG_PM_SLEEP_DEBUG
+  scripts/config --disable CONFIG_ACPI_DEBUG
+  scripts/config --disable CONFIG_SCHED_DEBUG
+  scripts/config --disable CONFIG_LATENCYTOP
+  scripts/config --disable CONFIG_DEBUG_PREEMPT
 
   sleep 2s
 
   msg2 "Disabling Kyber I/O scheduler"
   scripts/config --disable CONFIG_MQ_IOSCHED_KYBER
-
-  sleep 2s
-
-  msg2 "Enable Deadline I/O scheduler"
-  scripts/config --enable CONFIG_MQ_IOSCHED_DEADLINE
-
-  sleep 2s
-
-  msg2 "Enable CONFIG_BFQ_CGROUP_DEBUG"
-  scripts/config --enable CONFIG_BFQ_CGROUP_DEBUG
 
   sleep 2s
 
@@ -402,6 +423,16 @@ prepare(){
 
   msg2 "Enable OpenRGB SMBus access"
   scripts/config --module CONFIG_I2C_NCT6775
+
+  sleep 2s
+
+  msg2 "Disable TCP_CONG_CUBIC"
+  scripts/config --module CONFIG_TCP_CONG_CUBIC
+  scripts/config --disable CONFIG_DEFAULT_CUBIC
+  msg2 "Enable TCP_CONG_BBR2"
+  scripts/config --enable CONFIG_TCP_CONG_BBR2
+  scripts/config --enable CONFIG_DEFAULT_BBR2
+  scripts/config --set-str CONFIG_DEFAULT_TCP_CONG bbr2
 
   sleep 2s
 
@@ -443,9 +474,13 @@ prepare(){
   scripts/setlocalversion --save-scmversion
   echo "-${pkgbase}" > localversion
 
+  plain ""
+
   msg2 "Don't run depmod on make install..."
   # We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
+
+  plain ""
 
   # Config
   if [[ "$_compiler" = "1" ]]; then
@@ -454,8 +489,12 @@ prepare(){
     make ARCH=${ARCH} CC=${CC} CXX=${CXX} LLVM=1 LLVM_IAS=1 HOSTCC=${HOSTCC} HOSTCXX=${HOSTCXX} olddefconfig
   fi
 
+  plain ""
+
   make -s kernelrelease > version
   msg2 "Prepared $pkgbase version $(<version)"
+
+  plain ""
 }
 
 build(){
@@ -472,7 +511,7 @@ build(){
 }
 
 _package(){
-  pkgdesc="The Linux kernel and modules with Manjaro patches, ck's hrtimer patches and some of XanMod patches (Bootsplash support). Ashmem and binder are enabled"
+  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support)"
   depends=("coreutils" "kmod" "initramfs" "mkinitcpio")
   optdepends=("linux-firmware: firmware images needed for some devices"
               "crda: to set the correct wireless channels of your country"
