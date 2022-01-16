@@ -69,7 +69,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16
+pkgver=5.16.1
 major=5.16
 manjaromajor=516
 pkgrel=1
@@ -476,12 +476,6 @@ prepare(){
 
   plain ""
 
-  msg2 "Don't run depmod on make install..."
-  # We'll do this ourselves in packaging
-  sed -i '2iexit 0' scripts/depmod.sh
-
-  plain ""
-
   # Config
   if [[ "$_compiler" = "1" ]]; then
     make ARCH=${ARCH} CC=${CC} CXX=${CXX} HOSTCC=${HOSTCC} HOSTCXX=${HOSTCXX} olddefconfig
@@ -523,20 +517,13 @@ _package(){
   local kernver="$(<version)"
   local modulesdir="${pkgdir}"/usr/lib/modules/${kernver}
 
-  msg2 "Create /boot dir in pkg/ dir..."
-  mkdir -p "${pkgdir}"/boot
-
   msg2 "Installing boot image..."
   # systemd expects to find the kernel here to allow hibernation
   # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
-  #install -Dm644 arch/${ARCH}/boot/bzImage "$modulesdir/vmlinuz"
-  msg2 "install -Dm644 "$(make -s image_name)" "$modulesdir/vmlinuz""
   install -Dm644 "$(make -s image_name)" "$modulesdir/vmlinuz"
 
   # Used by mkinitcpio to name the kernel
-  msg2 "echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase""
   echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
-  echo "${major}-${CARCH}" | install -Dm644 /dev/stdin "$modulesdir/kernelbase"
 
   msg2 "Installing modules..."
   if [[ "$_compiler" = "1" ]]; then
@@ -545,27 +532,9 @@ _package(){
     make ARCH=${ARCH} CC=${CC} CXX=${CXX} LLVM=1 LLVM_IAS=1 HOSTCC=${HOSTCC} HOSTCXX=${HOSTCXX} INSTALL_MOD_PATH="${pkgdir}"/usr INSTALL_MOD_STRIP=1 -j$(nproc) modules_install
   fi
 
-  # add kernel version
-  msg2 "Add kernel version..."
-  #echo "${pkgver}-${pkgbase} ${CARCH}" > "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
-  echo "${pkgver}-${pkgbase} x64" > "${pkgdir}/boot/${pkgbase}-${CARCH}.kver"
-
-  # make room for external modules
-  msg2 "Make room for external modules..."
-  local extramodules="extramodules-${kernver}-${pkgbase}"
-  ln -s "../${extramodules}" "${pkgdir}/usr/lib/modules/${kernver}/extramodules"
-
-  # add real version for building modules and running depmod from hook
-  msg2 "Add real version for building modules and running depmod from hook..."
-  echo "${kernver}" | install -Dm644 /dev/stdin "${pkgdir}/usr/lib/modules/${extramodules}/version"
-
   # remove build and source links
   msg2 "Remove build dir and source dir..."
   rm -rf "$modulesdir"/{source,build}
-
-  # now we call depmod...
-  msg2 "Now we call depmod..."
-  depmod -b "${pkgdir}/usr" -F System.map "${kernver}"
 }
 
 _package-headers(){
