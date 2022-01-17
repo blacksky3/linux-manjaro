@@ -88,6 +88,7 @@ source=("https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar
 md5sums=("SKIP"
          "SKIP")
 
+# Manjaro patches
 manjaropatchpath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/master
 source+=(# ARCH Patches
          "${manjaropatchpath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch"
@@ -140,6 +141,7 @@ md5sums+=("42e898478e26b9c73180b9ca1b6eb511"  #0001-ZEN-Add-sysctl-and-CONFIG-to
           "ecfd8a30c480149005fcf349e4d06f4b"  #0412-bootsplash.patch
           "2ead9aa2df230c83539e3ebf6b796b18") #0413-bootsplash.gitpatch
 
+# Piotr Górski patches
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
 # Block patches. Set BFQ as default
 source+=("${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch"
