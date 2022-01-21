@@ -13,7 +13,7 @@
 #Credits: Philip Müller <philm[at]manjaro[dot]org> ---> For the base PKFBUILD
 #Credits: Tobias Powalowski <tpowa@archlinux.org>
 #Credits: Thomas Baechler <thomas@archlinux.org>
-#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For Block, Futex, BBR2 and CPU patches
+#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For Block, BLK, BTRFS, Futex, BBR2 and CPU patches
 #Credits: Graysky2 <https://github.com/graysky2> ---> For kernel_compiler_patch
 #Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch> ---> For config setings
 
@@ -167,6 +167,12 @@ source+=("${lucjanpath}/bbr2-patches-v2-sep/0001-bbr2-5.16-introduce-BBRv2.patch
          "${lucjanpath}/bbr2-patches-v2-sep/0002-bbr2-5.16-clean-up-forward-port.patch")
 md5sums+=("8444613ccc5dffc5c61217e21c659b80"  #0001-bbr2-5.16-introduce-BBRv2.patch
           "1fd9b083a911edc65eb188027616663f") #0002-bbr2-5.16-clean-up-forward-port.patch
+# BLK patches
+source+=("${lucjanpath}/blk-patches/0001-blk-patches.patch")
+md5sums+=("194c8e20ad30973c32159cb23f3be4c9") #0001-blk-patches.patch
+# BTRFS patches
+source+=("${lucjanpath}/btrfs-patches-v2/0001-btrfs-patches.patch")
+md5sums+=("075dae41d483da988a376a765fe80828") #0001-btrfs-patches.patch
 
 # Graysky2 CPU patch
 source+=("https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch")
@@ -464,6 +470,11 @@ prepare(){
   # CONFIG_ANDROID_BINDER_IPC_SELFTEST is not set
 
   sleep 2s
+  
+  msg2 "Enable BLK_CGROUP_IOSTAT (IO statistics monitor per cgroup)"
+  scripts/config --module CONFIG_BLK_CGROUP_IOSTAT
+
+  sleep 2s
 
   msg2 "Set CONFIG_GENERIC_CPU"
   scripts/config --enable CONFIG_GENERIC_CPU
@@ -508,7 +519,7 @@ build(){
 }
 
 _package(){
-  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support)"
+  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Block, BLK, BTRFS, Futex, BBR2 and CPU patches and Graysky2 kernel_compiler_patch patch"
   depends=("coreutils" "kmod" "initramfs" "mkinitcpio")
   optdepends=("linux-firmware: firmware images needed for some devices"
               "crda: to set the correct wireless channels of your country"
