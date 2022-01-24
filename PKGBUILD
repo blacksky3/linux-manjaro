@@ -14,7 +14,7 @@
 #Credits: Philip Müller <philm[at]manjaro[dot]org> ---> For the base PKFBUILD
 #Credits: Tobias Powalowski <tpowa@archlinux.org>
 #Credits: Thomas Baechler <thomas@archlinux.org>
-#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For AMD64, Arch, Block and BLK and CPU patches
+#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For AMD64, Block and BLK and CPU patches
 #Credits: Graysky2 <https://github.com/graysky2> ---> For kernel_compiler_patch
 #Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch> ---> For config setings
 
@@ -147,9 +147,6 @@ lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${m
 # Amd64 patches
 source+=("${lucjanpath}/amd64-patches/0001-amd64-patches.patch")
 md5sums+=("dbdb6754a1f5b3ccf26321843a070406") #0001-amd64-patches.patch
-# Arch patches
-source+=("${lucjanpath}/arch-patches-sep/0002-Bluetooth-btintel-Fix-bdaddress-comparison-with-garb.patch")
-md5sums+=("a946c6ae7715812df1b8cf1b615a9eed") #0002-Bluetooth-btintel-Fix-bdaddress-comparison-with-garb.patch
 # Block patches. Set BFQ as default
 source+=("${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch"
          "${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch"
@@ -507,7 +504,7 @@ build(){
 }
 
 _package(){
-  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski AMD64, Arch, Block, BLK and CPU patches and Graysky2 kernel_compiler_patch patch"
+  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski AMD64, Block, BLK and CPU patches and Graysky2 kernel_compiler_patch patch"
   depends=("coreutils" "kmod" "initramfs" "mkinitcpio")
   optdepends=("linux-firmware: firmware images needed for some devices"
               "crda: to set the correct wireless channels of your country"
