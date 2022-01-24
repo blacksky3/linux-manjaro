@@ -14,7 +14,7 @@
 #Credits: Philip Müller <philm[at]manjaro[dot]org> ---> For the base PKFBUILD
 #Credits: Tobias Powalowski <tpowa@archlinux.org>
 #Credits: Thomas Baechler <thomas@archlinux.org>
-#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For Block, BLK, BTRFS, Futex, BBR2 and CPU patches
+#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For AMD64, Arch. Block and BLK and CPU patches
 #Credits: Graysky2 <https://github.com/graysky2> ---> For kernel_compiler_patch
 #Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch> ---> For config setings
 
@@ -144,36 +144,29 @@ md5sums+=("42e898478e26b9c73180b9ca1b6eb511"  #0001-ZEN-Add-sysctl-and-CONFIG-to
 
 # Piotr Górski patches
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
+# Amd64 patches
+source+=("${lucjanpath}/amd64-patches/0001-amd64-patches.patch")
+md5sums+=("dbdb6754a1f5b3ccf26321843a070406") #0001-amd64-patches.patch
+# Arch patches
+source+=("${lucjanpath}/arch-patches-sep/0002-Bluetooth-btintel-Fix-bdaddress-comparison-with-garb.patch")
+md5sums+=("a946c6ae7715812df1b8cf1b615a9eed") #0002-Bluetooth-btintel-Fix-bdaddress-comparison-with-garb.patch
 # Block patches. Set BFQ as default
 source+=("${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch"
          "${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch"
-         "${lucjanpath}/block-patches-sep/0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch"
          "${lucjanpath}/ll-patches/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch"
          "${lucjanpath}/ll-patches/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch")
 md5sums+=("7536731ddb9db4d2683234d70edf5434"  #0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
           "0ca0ee369847388683473c6e9eafa11f"  #0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
-          "86af2daa361caa182f55547c698f6472"  #0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch
           "84587403cabe9e19bb4363a3ee4f35b8"  #0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
           "bd5dbcdc69e376db7c62c30b29b6cf66") #0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
+# BLK patches
+source+=("${lucjanpath}/blk-patches/0001-blk-patches.patch")
+md5sums+=("194c8e20ad30973c32159cb23f3be4c9") #0001-blk-patches.patch
 # CPU patches
 source+=("${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch"
          "${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch")
 md5sums+=("d9cb95351ab059c22c68067031367b84"  #0002-init-Kconfig-enable-O3-for-all-arches.patch
           "45da2b5938474ff8e99fec9dc9596ea1") #0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
-# Futex
-source+=("${lucjanpath}/futex-patches/0001-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode.patch")
-md5sums+=("f24e3f6e117a166dbca54c6117b71e8b") #0001-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode.patch
-# BBR2
-source+=("${lucjanpath}/bbr2-patches-v2-sep/0001-bbr2-5.16-introduce-BBRv2.patch"
-         "${lucjanpath}/bbr2-patches-v2-sep/0002-bbr2-5.16-clean-up-forward-port.patch")
-md5sums+=("8444613ccc5dffc5c61217e21c659b80"  #0001-bbr2-5.16-introduce-BBRv2.patch
-          "1fd9b083a911edc65eb188027616663f") #0002-bbr2-5.16-clean-up-forward-port.patch
-# BLK patches
-source+=("${lucjanpath}/blk-patches/0001-blk-patches.patch")
-md5sums+=("194c8e20ad30973c32159cb23f3be4c9") #0001-blk-patches.patch
-# BTRFS patches
-source+=("${lucjanpath}/btrfs-patches-v2/0001-btrfs-patches.patch")
-md5sums+=("075dae41d483da988a376a765fe80828") #0001-btrfs-patches.patch
 
 # Graysky2 CPU patch
 source+=("https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch")
@@ -247,6 +240,8 @@ prepare(){
   sleep 2s
 
   plain ""
+  
+  msg "Base config"
 
   msg2 "Set kernel compression mode to ZSTD"
   scripts/config --enable CONFIG_HAVE_KERNEL_GZIP
@@ -323,12 +318,7 @@ prepare(){
   scripts/config --disable CONFIG_STACK_TRACER
 
   sleep 2s
-
-  msg2 "Enable CONFIG_USER_NS_UNPRIVILEGED"
-  scripts/config --enable CONFIG_USER_NS
-
-  sleep 2s
-
+  
   msg2 "Setting performance governor"
   scripts/config --disable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
   scripts/config --disable CONFIG_CPU_FREQ_GOV_SCHEDUTIL
@@ -424,25 +414,17 @@ prepare(){
   scripts/config --disable CONFIG_MQ_IOSCHED_KYBER
 
   sleep 2s
-
+  
   msg2 "Enable Fsync support"
   scripts/config --enable CONFIG_FUTEX
   scripts/config --enable CONFIG_FUTEX_PI
 
   sleep 2s
+  
+  msg "Patch addition config"
 
   msg2 "Enable OpenRGB SMBus access"
   scripts/config --module CONFIG_I2C_NCT6775
-
-  sleep 2s
-
-  msg2 "Disable TCP_CONG_CUBIC"
-  scripts/config --module CONFIG_TCP_CONG_CUBIC
-  scripts/config --disable CONFIG_DEFAULT_CUBIC
-  msg2 "Enable TCP_CONG_BBR2"
-  scripts/config --enable CONFIG_TCP_CONG_BBR2
-  scripts/config --enable CONFIG_DEFAULT_BBR2
-  scripts/config --set-str CONFIG_DEFAULT_TCP_CONG bbr2
 
   sleep 2s
 
@@ -474,6 +456,11 @@ prepare(){
   
   msg2 "Enable BLK_CGROUP_IOSTAT (IO statistics monitor per cgroup)"
   scripts/config --module CONFIG_BLK_CGROUP_IOSTAT
+  
+  sleep 2s
+  
+  msg2 "Enable CONFIG_USER_NS_UNPRIVILEGED"
+  scripts/config --enable CONFIG_USER_NS
 
   sleep 2s
 
@@ -520,7 +507,7 @@ build(){
 }
 
 _package(){
-  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Block, BLK, BTRFS, Futex, BBR2 and CPU patches and Graysky2 kernel_compiler_patch patch"
+  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski AMD64, Arch, Block, BLK and CPU patches and Graysky2 kernel_compiler_patch patch"
   depends=("coreutils" "kmod" "initramfs" "mkinitcpio")
   optdepends=("linux-firmware: firmware images needed for some devices"
               "crda: to set the correct wireless channels of your country"
