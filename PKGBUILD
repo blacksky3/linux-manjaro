@@ -70,7 +70,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.2
+pkgver=5.16.3
 major=5.16
 manjaromajor=516
 pkgrel=1
@@ -147,6 +147,9 @@ lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${m
 # Amd64 patches
 source+=("${lucjanpath}/amd64-patches/0001-amd64-patches.patch")
 md5sums+=("dbdb6754a1f5b3ccf26321843a070406") #0001-amd64-patches.patch
+# Arch patches # Temp fix. Will remove when Manjaro will add new arch patches
+source+=("${lucjanpath}/arch-patches-v2-sep/0003-Bluetooth-Read-codec-capabilities-only-if-supported.patch")
+md5sums+=("2cd6a62a3ee0435522dc59af8a76719b") #0003-Bluetooth-Read-codec-capabilities-only-if-supported.patch
 # Block patches. Set BFQ as default
 source+=("${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch"
          "${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch"
