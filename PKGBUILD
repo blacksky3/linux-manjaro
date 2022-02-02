@@ -70,7 +70,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.4
+pkgver=5.16.5
 major=5.16
 manjaromajor=516
 pkgrel=1
