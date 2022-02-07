@@ -70,7 +70,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.5
+pkgver=5.16.7
 major=5.16
 manjaromajor=516
 pkgrel=1
@@ -93,6 +93,7 @@ manjaropatchpath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-
 source+=(# ARCH Patches
          "${manjaropatchpath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch"
          "${manjaropatchpath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch"
+         "${manjaropatchpath}/0003-Bt_Read_codec_capabilities_only_if_supported.patch"
          # Temp Fixes
          # MANJARO Patches
          "${manjaropatchpath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch"
@@ -121,6 +122,7 @@ source+=(# ARCH Patches
          "${manjaropatchpath}/0413-bootsplash.gitpatch")
 md5sums+=("42e898478e26b9c73180b9ca1b6eb511"  #0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
           "4286ef22f0096f6a674a24434a0482fe"  #0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
+          "41a05ba07c861169ab34329980770100"  #0003-Bt_Read_codec_capabilities_only_if_supported.patch
           "b855b885a36de3228cb4118fdf61224b"  #0101-i2c-nuvoton-nc677x-hwmon-driver.patch
           "5a8e19711baad0d09d7c25c3e27d72b8"  #0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
           "0f597205ea7b91f7024f0ac02ac96975"  #0301-revert-garbage-collect-fbdev-scrolling-acceleration.patch
@@ -146,9 +148,6 @@ lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${m
 # Amd64 patches
 source+=("${lucjanpath}/amd64-patches/0001-amd64-patches.patch")
 md5sums+=("dbdb6754a1f5b3ccf26321843a070406") #0001-amd64-patches.patch
-# Arch patches # Temp fix. Will remove when Manjaro will add new arch patches
-source+=("${lucjanpath}/arch-patches-v2-sep/0003-Bluetooth-Read-codec-capabilities-only-if-supported.patch")
-md5sums+=("2cd6a62a3ee0435522dc59af8a76719b") #0003-Bluetooth-Read-codec-capabilities-only-if-supported.patch
 # Block patches. Set BFQ as default
 source+=("${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch"
          "${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch"
