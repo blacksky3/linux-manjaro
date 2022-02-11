@@ -70,7 +70,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.7
+pkgver=5.16.9
 major=5.16
 manjaromajor=516
 pkgrel=1
@@ -103,10 +103,9 @@ source+=(# ARCH Patches
          # Lenovo + AMD
          #"${manjaropatchpath}/0201-lenovo-wmi2.patch"
          # Bootsplash
-         "${manjaropatchpath}/0301-revert-garbage-collect-fbdev-scrolling-acceleration.patch"
-         "${manjaropatchpath}/0302-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch"
-         "${manjaropatchpath}/0303-revert-fbcon-remove-no-op-fbcon_set_origin.patch"
-         "${manjaropatchpath}/0304-revert-fbcon-remove-soft-scrollback-code.patch"
+         "${manjaropatchpath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
+         "${manjaropatchpath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch'
+         "${manjaropatchpath}/0303-revert-fbcon-remove-soft-scrollback-code.patch'
          "${manjaropatchpath}/0401-bootsplash.patch"
          "${manjaropatchpath}/0402-bootsplash.patch"
          "${manjaropatchpath}/0403-bootsplash.patch"
@@ -125,10 +124,6 @@ md5sums+=("42e898478e26b9c73180b9ca1b6eb511"  #0001-ZEN-Add-sysctl-and-CONFIG-to
           "41a05ba07c861169ab34329980770100"  #0003-Bt_Read_codec_capabilities_only_if_supported.patch
           "b855b885a36de3228cb4118fdf61224b"  #0101-i2c-nuvoton-nc677x-hwmon-driver.patch
           "5a8e19711baad0d09d7c25c3e27d72b8"  #0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
-          "0f597205ea7b91f7024f0ac02ac96975"  #0301-revert-garbage-collect-fbdev-scrolling-acceleration.patch
-          "2496e6fc16f67b289f72ddc2ea2511cf"  #0302-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
-          "fed6ae4ac4c3f56178fa4aca6c934d6f"  #0303-revert-fbcon-remove-no-op-fbcon_set_origin.patch
-          "594d4f69b956eaab3336b4e01f42eda8"  #0304-revert-fbcon-remove-soft-scrollback-code.patch
           "be5a873f638ff5c31947f8d28a824d3a"  #0401-bootsplash.patch
           "b4acd66a564af83b5409738c40b4a566"  #0402-bootsplash.patch
           "a6407dceae1838f5aa27450401a91be6"  #0403-bootsplash.patch
