@@ -86,7 +86,7 @@ options=('!strip')
 source=("https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz"
         "config")
 md5sums=("SKIP"
-         "SKIP")
+         "851f2d7f7dd2ec1e0e5c1aeb8019e536")
 
 # Manjaro patches
 manjaropatchpath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/master
