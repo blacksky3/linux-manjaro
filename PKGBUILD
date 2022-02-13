@@ -94,6 +94,7 @@ source+=(# ARCH Patches
          "${manjaropatchpath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch"
          "${manjaropatchpath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch"
          "${manjaropatchpath}/0003-Bt_Read_codec_capabilities_only_if_supported.patch"
+         "${manjaropatchpath}/0004-Bt_fix_deadlock_for_RFCOMM_sk_state_change.patch"
          # Temp Fixes
          # MANJARO Patches
          "${manjaropatchpath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch"
@@ -167,10 +168,6 @@ md5sums+=("d9cb95351ab059c22c68067031367b84"  #0002-init-Kconfig-enable-O3-for-a
 # Graysky2 CPU patch
 source+=("https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch")
 md5sums+=("a28d20dbe481a55ac32ee4a64bee4fac") #more-uarches-for-kernel-5.15%2B.patch
-
-# Hot fix. Arch patch in zen kernel but not been merged in stable linux package
-source+=("0004-Bluetooth-fix-deadlock-for-RFCOMM-sk-state-change.patch")
-md5sums+=("22c5861df83adef6b122d6015479c964") #0004-Bluetooth-fix-deadlock-for-RFCOMM-sk-state-change.patch
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
