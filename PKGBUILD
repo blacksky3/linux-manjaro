@@ -123,6 +123,7 @@ source+=(# ARCH Patches
 md5sums+=("42e898478e26b9c73180b9ca1b6eb511"  #0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
           "4286ef22f0096f6a674a24434a0482fe"  #0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
           "41a05ba07c861169ab34329980770100"  #0003-Bt_Read_codec_capabilities_only_if_supported.patch
+          "548ef4ee34290c645c9d4f130cfa6206"  #0004-Bt_fix_deadlock_for_RFCOMM_sk_state_change.patch
           "b855b885a36de3228cb4118fdf61224b"  #0101-i2c-nuvoton-nc677x-hwmon-driver.patch
           "5a8e19711baad0d09d7c25c3e27d72b8"  #0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
           "2496e6fc16f67b289f72ddc2ea2511cf"  #0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
