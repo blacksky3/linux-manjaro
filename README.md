@@ -2,6 +2,35 @@
 
 Linux kernel build with Manjaro patches
 
+# Version
+
+- 5.16.10
+
+# Build
+
+    git clone https://github.com/blacksky3/linux-manjaro.git
+    cd linux-manjaro
+    env_compiler=(1 or 2) makepkg -s
+    
+# Build variables
+
+### _compiler
+
+- Will set compiler to build the kernel :
+
+        1 : GCC
+        2 : CLANG+LLVM
+
+If not set it will build with GCC by default.
+
+# Update GRUB
+
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+# Info
+
+You can refer to this Archlinux page that have lots of useful information to build the kernel and debugging if you have some issues https://wiki.archlinux.org/index.php/Kernel/Traditional_compilation
+
 # Contact info
 
 blacksky3@tuta.io if you have any problems or bugs report.
