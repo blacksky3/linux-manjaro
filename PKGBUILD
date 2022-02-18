@@ -158,8 +158,8 @@ md5sums+=("7536731ddb9db4d2683234d70edf5434"  #0001-block-Kconfig.iosched-set-de
           "84587403cabe9e19bb4363a3ee4f35b8"  #0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
           "bd5dbcdc69e376db7c62c30b29b6cf66") #0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
 # BLK patches
-source+=("${lucjanpath}/blk-patches/0001-blk-patches.patch")
-md5sums+=("194c8e20ad30973c32159cb23f3be4c9") #0001-blk-patches.patch
+source+=("${lucjanpath}/blk-patches-v4/0001-blk-patches.patch")
+md5sums+=("874ff4035bbdca5f7d252f07fdb3b890") #0001-blk-patches.patch
 # CPU patches
 source+=("${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch"
          "${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch")
