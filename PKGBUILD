@@ -169,10 +169,6 @@ md5sums+=("d9cb95351ab059c22c68067031367b84"  #0002-init-Kconfig-enable-O3-for-a
 source+=("https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch")
 md5sums+=("a28d20dbe481a55ac32ee4a64bee4fac") #more-uarches-for-kernel-5.15%2B.patch
 
-# fix for gcc 12.x.x
-source+=("0001-gcc-12-fix.patch")
-md5sums+=("f38cfa765f082cf5c520d0115d67c676") #0001-gcc-12-fix.patch
-
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
