@@ -22,14 +22,6 @@
 
 ARCH=x86
 
-################################# GCC ################################
-
-# Grap GCC version
-# Workarround with GCC 12.0.0. Pluggins don't work, so we have to grap GCC version
-# and disable CONFIG_HAVE_GCC_PLUGINS/CONFIG_GCC_PLUGINS
-
-GCC_VERSION=$(gcc -dumpversion)
-
 ################################# CC/CXX/HOSTCC/HOSTCXX ################################
 
 #Set compiler to build the kernel
@@ -70,7 +62,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.10
+pkgver=5.16.11
 major=5.16
 manjaromajor=516
 pkgrel=1
@@ -86,15 +78,13 @@ options=('!strip')
 source=("https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz"
         "config")
 md5sums=("SKIP"
-         "851f2d7f7dd2ec1e0e5c1aeb8019e536")
+         "611cfe2435b568f20c580faa67e79a96")
 
 # Manjaro patches
 manjaropatchpath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/master
 source+=(# ARCH Patches
          "${manjaropatchpath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch"
          "${manjaropatchpath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch"
-         "${manjaropatchpath}/0003-Bt_Read_codec_capabilities_only_if_supported.patch"
-         "${manjaropatchpath}/0004-Bt_fix_deadlock_for_RFCOMM_sk_state_change.patch"
          # Temp Fixes
          # MANJARO Patches
          "${manjaropatchpath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch"
@@ -122,8 +112,6 @@ source+=(# ARCH Patches
          "${manjaropatchpath}/0413-bootsplash.gitpatch")
 md5sums+=("42e898478e26b9c73180b9ca1b6eb511"  #0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
           "4286ef22f0096f6a674a24434a0482fe"  #0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
-          "41a05ba07c861169ab34329980770100"  #0003-Bt_Read_codec_capabilities_only_if_supported.patch
-          "548ef4ee34290c645c9d4f130cfa6206"  #0004-Bt_fix_deadlock_for_RFCOMM_sk_state_change.patch
           "b855b885a36de3228cb4118fdf61224b"  #0101-i2c-nuvoton-nc677x-hwmon-driver.patch
           "5a8e19711baad0d09d7c25c3e27d72b8"  #0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
           "2496e6fc16f67b289f72ddc2ea2511cf"  #0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
@@ -148,6 +136,17 @@ lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${m
 # Amd64 patches
 source+=("${lucjanpath}/amd64-patches/0001-amd64-patches.patch")
 md5sums+=("dbdb6754a1f5b3ccf26321843a070406") #0001-amd64-patches.patch
+# Fix! Upstream manjaro removed some Arch patches
+source+=("${lucjanpath}/arch-patches-v5-sep/0003-Bluetooth-Read-codec-capabilities-only-if-supported.patch"
+         "${lucjanpath}/arch-patches-v5-sep/0004-Bluetooth-fix-deadlock-for-RFCOMM-sk-state-change.patch"
+         "${lucjanpath}/arch-patches-v5-sep/0005-mt76-mt7921-add-support-for-PCIe-ID-0x0608-0x0616.patch"
+         "${lucjanpath}/arch-patches-v5-sep/0006-mt76-mt7921-reduce-log-severity-levels-for-informati.patch"
+         "${lucjanpath}/arch-patches-v5-sep/0007-Revert-NFSv4.1-query-for-fs_location-attr-on-a-new-f.patch")
+md5sums+=(SKIP
+          SKIP
+          SKIP
+          SKIP
+          SKIP)
 # Block patches. Set BFQ as default
 source+=("${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch"
          "${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch"
@@ -169,6 +168,10 @@ md5sums+=("d9cb95351ab059c22c68067031367b84"  #0002-init-Kconfig-enable-O3-for-a
 # Graysky2 CPU patch
 source+=("https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch")
 md5sums+=("a28d20dbe481a55ac32ee4a64bee4fac") #more-uarches-for-kernel-5.15%2B.patch
+
+# fix for gcc 12.x.x
+source+=("0001-gcc-12-fix.patch")
+md5sums+=("f38cfa765f082cf5c520d0115d67c676") #0001-gcc-12-fix.patch
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -206,40 +209,22 @@ prepare(){
 
   plain ""
 
-  msg2 "Disable CLANG LTO"
-  scripts/config --disable CONFIG_LTO
-  scripts/config --disable CONFIG_LTO_CLANG
-  scripts/config --disable CONFIG_ARCH_SUPPORTS_LTO_CLANG
-  scripts/config --disable CONFIG_ARCH_SUPPORTS_LTO_CLANG_THIN
-  scripts/config --disable CONFIG_HAS_LTO_CLANG
-  scripts/config --disable CONFIG_LTO_NONE
-  scripts/config --disable CONFIG_LTO_CLANG_FULL
-  scripts/config --disable CONFIG_LTO_CLANG_THIN
+  msg "Base config"
 
-  sleep 2s
-
-  # fix for GCC 12.0.0 (git version)
-  if [[ "$GCC_VERSION" = "12.0.0" ]] && [[ "$_compiler" = "1" ]]; then
-    plain ""
-
-    #msg2 "Disable CONFIG_HAVE_GCC_PLUGINS/CONFIG_GCC_PLUGINS (Quick fix for gcc 12.0.0 git version)"
-    scripts/config --disable CONFIG_HAVE_GCC_PLUGINS
-    scripts/config --disable CONFIG_GCC_PLUGINS
+  # Disable LTO with clang
+  if [[ "$_compiler" = "2" ]]; then
+    msg2 "Disable LTO"
+    scripts/config --disable CONFIG_LTO
+    scripts/config --disable CONFIG_LTO_CLANG
+    scripts/config --disable CONFIG_ARCH_SUPPORTS_LTO_CLANG
+    scripts/config --disable CONFIG_ARCH_SUPPORTS_LTO_CLANG_THIN
+    scripts/config --disable CONFIG_HAS_LTO_CLANG
+    scripts/config --disable CONFIG_LTO_NONE
+    scripts/config --disable CONFIG_LTO_CLANG_FULL
+    scripts/config --disable CONFIG_LTO_CLANG_THIN
 
     sleep 2s
-
-    msg2 "Disable Fortify"
-    scripts/config --disable CONFIG_FORTIFY_SOURCE
-    scripts/config --disable CONFIG_ARCH_HAS_FORTIFY_SOURCE
-
-    plain ""
   fi
-
-  sleep 2s
-
-  plain ""
-  
-  msg "Base config"
 
   msg2 "Set kernel compression mode to ZSTD"
   scripts/config --enable CONFIG_HAVE_KERNEL_GZIP
@@ -316,7 +301,7 @@ prepare(){
   scripts/config --disable CONFIG_STACK_TRACER
 
   sleep 2s
-  
+
   msg2 "Setting performance governor"
   scripts/config --disable CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
   scripts/config --disable CONFIG_CPU_FREQ_GOV_SCHEDUTIL
@@ -412,13 +397,13 @@ prepare(){
   scripts/config --disable CONFIG_MQ_IOSCHED_KYBER
 
   sleep 2s
-  
+
   msg2 "Enable Fsync support"
   scripts/config --enable CONFIG_FUTEX
   scripts/config --enable CONFIG_FUTEX_PI
 
   sleep 2s
-  
+
   msg "Patch addition config"
 
   msg2 "Enable OpenRGB SMBus access"
@@ -451,12 +436,12 @@ prepare(){
   # CONFIG_ANDROID_BINDER_IPC_SELFTEST is not set
 
   sleep 2s
-  
+
   msg2 "Enable BLK_CGROUP_IOSTAT (IO statistics monitor per cgroup)"
   scripts/config --module CONFIG_BLK_CGROUP_IOSTAT
-  
+
   sleep 2s
-  
+
   msg2 "Enable CONFIG_USER_NS_UNPRIVILEGED"
   scripts/config --enable CONFIG_USER_NS
 
