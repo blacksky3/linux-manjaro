@@ -4,7 +4,7 @@ Linux kernel build with Manjaro patches
 
 # Version
 
-- 5.16.10
+- 5.16.11
 
 # Build
 
@@ -22,6 +22,16 @@ Linux kernel build with Manjaro patches
         2 : CLANG+LLVM
 
 If not set it will build with GCC by default.
+
+# Prebuild package
+
+Prebuild package are available at https://repo.archlinuxrepo.dev/x86_64/kernel
+
+You can add this repo to your pacman.conf
+
+    [kernel]
+    SigLevel = Optional TrustAll
+    Server = https://repo.archlinuxrepo.dev/$arch/$repo
 
 # Update GRUB
 
