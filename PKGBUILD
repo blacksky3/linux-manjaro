@@ -67,107 +67,69 @@ major=5.16
 manjaromajor=516
 pkgrel=1
 arch=(x86_64)
-url="https://www.kernel.org/"
+url='https://www.kernel.org/'
 license=(GPL-2.0)
-makedepends=('bc' 'kmod' 'libelf' 'pahole' 'cpio' 'perl' 'tar' 'xz' 'zstd' 'xmlto' 'git' 'gcc' 'gcc-libs' 'glibc' 'binutils' 'make' 'patch')
+makedepends=(bc kmod libelf pahole cpio perl tar xz zstd xmlto git gcc gcc-libs glibc binutils make patch)
 if [[ "$_compiler" = "2" ]]; then
-  makedepends+=('clang' 'llvm' 'llvm-libs' 'lld')
+  makedepends+=(clang llvm llvm-libs lld)
 fi
-options=('!strip')
+options=(!strip)
 
-source=("https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz"
-        "config")
-md5sums=("SKIP"
-         "611cfe2435b568f20c580faa67e79a96")
-
-# Manjaro patches
-manjaropatchpath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/master
-source+=(# ARCH Patches
-         "${manjaropatchpath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch"
-         "${manjaropatchpath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch"
-         # Temp Fixes
-         # MANJARO Patches
-         "${manjaropatchpath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch"
-         #"${manjaropatchpath}/0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch"
-         #"${manjaropatchpath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch"
-         "${manjaropatchpath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch"
-         # Lenovo + AMD
-         #"${manjaropatchpath}/0201-lenovo-wmi2.patch"
-         # Bootsplash
-         "${manjaropatchpath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch"
-         "${manjaropatchpath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch"
-         "${manjaropatchpath}/0303-revert-fbcon-remove-soft-scrollback-code.patch"
-         "${manjaropatchpath}/0401-bootsplash.patch"
-         "${manjaropatchpath}/0402-bootsplash.patch"
-         "${manjaropatchpath}/0403-bootsplash.patch"
-         "${manjaropatchpath}/0404-bootsplash.patch"
-         "${manjaropatchpath}/0405-bootsplash.patch"
-         "${manjaropatchpath}/0406-bootsplash.patch"
-         "${manjaropatchpath}/0407-bootsplash.patch"
-         "${manjaropatchpath}/0408-bootsplash.patch"
-         "${manjaropatchpath}/0409-bootsplash.patch"
-         "${manjaropatchpath}/0410-bootsplash.patch"
-         "${manjaropatchpath}/0411-bootsplash.patch"
-         "${manjaropatchpath}/0412-bootsplash.patch"
-         "${manjaropatchpath}/0413-bootsplash.gitpatch")
-md5sums+=("42e898478e26b9c73180b9ca1b6eb511"  #0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
-          "4286ef22f0096f6a674a24434a0482fe"  #0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
-          "b855b885a36de3228cb4118fdf61224b"  #0101-i2c-nuvoton-nc677x-hwmon-driver.patch
-          "5a8e19711baad0d09d7c25c3e27d72b8"  #0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
-          "2496e6fc16f67b289f72ddc2ea2511cf"  #0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
-          "fed6ae4ac4c3f56178fa4aca6c934d6f"  #0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
-          "594d4f69b956eaab3336b4e01f42eda8"  #0303-revert-fbcon-remove-soft-scrollback-code.patch
-          "be5a873f638ff5c31947f8d28a824d3a"  #0401-bootsplash.patch
-          "b4acd66a564af83b5409738c40b4a566"  #0402-bootsplash.patch
-          "a6407dceae1838f5aa27450401a91be6"  #0403-bootsplash.patch
-          "cb78b1c11b917a4d31c4b1567183b76f"  #0404-bootsplash.patch
-          "3efea575da7f02ba94789d3b6b81e11f"  #0405-bootsplash.patch
-          "2529ad13791b259d80c9d5d702187a65"  #0406-bootsplash.patch
-          "cb296d7788098cf478c46c0d21376719"  #0407-bootsplash.patch
-          "50255aac36e002afa477e4527a0550af"  #0408-bootsplash.patch
-          "6b6def41b404422dc04b39e2f1adffc8"  #0409-bootsplash.patch
-          "1922e3a7727d2bf51641b98d6d354738"  #0410-bootsplash.patch
-          "d6b7e4e43e42128cf950251e0d0aee23"  #0411-bootsplash.patch
-          "ecfd8a30c480149005fcf349e4d06f4b"  #0412-bootsplash.patch
-          "2ead9aa2df230c83539e3ebf6b796b18") #0413-bootsplash.gitpatch
-
-# Piotr Górski patches
+manjaropatchpath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/tree/8a543c822d8ab5c7ea9dc6c69cc5e73ece495315
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
-# Amd64 patches
-source+=("${lucjanpath}/amd64-patches/0001-amd64-patches.patch")
-md5sums+=("dbdb6754a1f5b3ccf26321843a070406") #0001-amd64-patches.patch
-# Fix! Upstream manjaro removed some Arch patches
-source+=("${lucjanpath}/arch-patches-v5-sep/0003-Bluetooth-Read-codec-capabilities-only-if-supported.patch"
-         "${lucjanpath}/arch-patches-v5-sep/0004-Bluetooth-fix-deadlock-for-RFCOMM-sk-state-change.patch"
-         "${lucjanpath}/arch-patches-v5-sep/0005-mt76-mt7921-add-support-for-PCIe-ID-0x0608-0x0616.patch"
-         "${lucjanpath}/arch-patches-v5-sep/0006-mt76-mt7921-reduce-log-severity-levels-for-informati.patch"
-         "${lucjanpath}/arch-patches-v5-sep/0007-Revert-NFSv4.1-query-for-fs_location-attr-on-a-new-f.patch")
-md5sums+=(SKIP
-          SKIP
-          SKIP
-          SKIP
-          SKIP)
-# Block patches. Set BFQ as default
-source+=("${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch"
-         "${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch"
-         "${lucjanpath}/ll-patches/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch"
-         "${lucjanpath}/ll-patches/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch")
-md5sums+=("7536731ddb9db4d2683234d70edf5434"  #0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
-          "0ca0ee369847388683473c6e9eafa11f"  #0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
-          "84587403cabe9e19bb4363a3ee4f35b8"  #0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
-          "bd5dbcdc69e376db7c62c30b29b6cf66") #0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
-# BLK patches
-source+=("${lucjanpath}/blk-patches-v4/0001-blk-patches.patch")
-md5sums+=("874ff4035bbdca5f7d252f07fdb3b890") #0001-blk-patches.patch
-# CPU patches
-source+=("${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch"
-         "${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch")
-md5sums+=("d9cb95351ab059c22c68067031367b84"  #0002-init-Kconfig-enable-O3-for-all-arches.patch
-          "45da2b5938474ff8e99fec9dc9596ea1") #0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
 
-# Graysky2 CPU patch
-source+=("https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch")
-md5sums+=("a28d20dbe481a55ac32ee4a64bee4fac") #more-uarches-for-kernel-5.15%2B.patch
+source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
+        ${manjaropatchpath}/config
+        # Manjaro patches
+        # ARCH Patches
+        ${manjaropatchpath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
+        ${manjaropatchpath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
+        # Temp Fixes
+        # MANJARO Patches
+        ${manjaropatchpath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch
+        #${manjaropatchpath}/0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch
+        #${manjaropatchpath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch
+        ${manjaropatchpath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
+        # Lenovo + AMD
+        #${manjaropatchpath}/0201-lenovo-wmi2.patch
+        # Bootsplash
+        ${manjaropatchpath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
+        ${manjaropatchpath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
+        ${manjaropatchpath}/0303-revert-fbcon-remove-soft-scrollback-code.patch
+        ${manjaropatchpath}/0401-bootsplash.patch
+        ${manjaropatchpath}/0402-bootsplash.patch
+        ${manjaropatchpath}/0403-bootsplash.patch
+        ${manjaropatchpath}/0404-bootsplash.patch
+        ${manjaropatchpath}/0405-bootsplash.patch
+        ${manjaropatchpath}/0406-bootsplash.patch
+        ${manjaropatchpath}/0407-bootsplash.patch
+        ${manjaropatchpath}/0408-bootsplash.patch
+        ${manjaropatchpath}/0409-bootsplash.patch
+        ${manjaropatchpath}/0410-bootsplash.patch
+        ${manjaropatchpath}/0411-bootsplash.patch
+        ${manjaropatchpath}/0412-bootsplash.patch
+        ${manjaropatchpath}/0413-bootsplash.gitpatch
+        # Piotr Górski patches
+        # Amd64 patches
+        ${lucjanpath}/amd64-patches/0001-amd64-patches.patch
+        # Arch patches Fix! Upstream manjaro removed some Arch patches
+        ${lucjanpath}/arch-patches-v5-sep/0003-Bluetooth-Read-codec-capabilities-only-if-supported.patch
+        ${lucjanpath}/arch-patches-v5-sep/0004-Bluetooth-fix-deadlock-for-RFCOMM-sk-state-change.patch
+        ${lucjanpath}/arch-patches-v5-sep/0005-mt76-mt7921-add-support-for-PCIe-ID-0x0608-0x0616.patch
+        ${lucjanpath}/arch-patches-v5-sep/0006-mt76-mt7921-reduce-log-severity-levels-for-informati.patch
+        ${lucjanpath}/arch-patches-v5-sep/0007-Revert-NFSv4.1-query-for-fs_location-attr-on-a-new-f.patch
+        # Block patches. Set BFQ as default
+        ${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
+        ${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
+        ${lucjanpath}/ll-patches/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
+        ${lucjanpath}/ll-patches/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
+        # BLK patches
+        ${lucjanpath}/blk-patches-v4/0001-blk-patches.patch
+        # CPU patches
+        ${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch
+        ${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
+        # Graysky2 CPU patch
+        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch)
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -599,3 +561,40 @@ _package-headers(){
   mkdir -p "$pkgdir/usr/src"
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
+
+sha256sums=('6d186158a4c44a4df438e0286ee8186f1cc9cc9d8a909d4c3e25a4f7eca8b023'
+            'f9721288051d4c6a028289ad2457fdea96162906c0211039b8edefc122c77fbc'
+            '7b56e5b3dca14ef8ea00b0c3bc27da279fce7f362816f4c4977590e0abc434d9'
+            'fdd1e0fc4c4151bfacfb282da4c39f0a32401d843b6daa975a7dc03ac4903f6a'
+            'a8e45dcc072cc483bc01a4905cb6ba1d4d05966492a940bc926556b56e7dfb84'
+            '293e252f344f425adfc76c3a3635f5cf7f9b1f22046644efd858e6dcd9cd7607'
+            '507fc8e85a6e8951a72a5e8daaad6f4cf4ec118e88b11fe20fd40aa4fde17639'
+            'e18b9b00053c18f58a957c9190dd9615c8dd3d1e720a51f9aacce37549cd41bf'
+            'c7b941d39c8698a4263363429dd4a4aa1aef68dd8a0016fb23cdf77a8bdcc962'
+            '1f97ead67339643c119d09b5cfd8d28875654e0fbbc467bd13f32b64e312441c'
+            '2b37f0fb635a12877f630de6ec4c7aefee5a0d7177d48b67ae795d9829d1e32b'
+            '13d2dce1083bfb81c1f70d6ad27db8af3eba39164c0c5258873f2d2f605e7624'
+            'b3dd7ad080c7358bde898e2f4277507feec2a0ad7395f49cd39a64b369e111bb'
+            '78c34bd9b8f2ee93fd48ccb754bfa2ebeac855beb5a24c25400b1755b0cc71ac'
+            'a54124a8636cbfbc89144d6ccb77060aff267a4d44456d4959a744828716eb73'
+            '991f9edc1a66978488937dd9caacdb8fcd141bad00395360da3d0db9d2705626'
+            '25c6d7237bbe8ba64bc1c094fb70251fb960bc064ac1763ca3d2e5717a1c95c9'
+            '1619c1d55c1abb10b42a6699ebd8cde0aca79640c8ac60a7c8f88a7e15b22f91'
+            'b307a7d1c98fad78abfb7037ab059d3fac85adc5c7392881e7ee3ec3d31ebae0'
+            '23acec0b073418deb11e091f1612d3bb16b12a5b01e8700d466b498bbc38c54f'
+            '3d9bd6e012af47bab363acdd34763c4ab12acdc2e374ab4de97e502956127a84'
+            '998561f71c1594f8d29135fb52da0ced4591533fa0c62e9aa7a9902dc642b986'
+            '1d5082af4e011cc7e693119b9c89eb621a05495bb4d1c238dd6bbeb7587dc8ff'
+            '362cbeb8ee42c34ae635815817a4a6585e422a5ab01d36fe6aa5108a28712ed2'
+            '12947c1f27d1c6b7ec46228f4b71a8eb7b47488e7041015817a9a68ecd451109'
+            '186058e970add37ac245c97ba40efacbd778b3b7df08e845d752f4f085864686'
+            '2c83042bb9e5c2f5851567617d0376a53b14494ed4e085af2a7fa1b0194cd071'
+            'cb29309136affdc47bd13dfd88e611be15c2b301c9a1320cb597807bafce321a'
+            '5223b5cbabf75d0a9e1da40a36cde06fd094763762322f8f5c9014b9e63527cd'
+            'd20bf76974609f24ac092330e0fe0005ac77c401937511e71e6f1d5240042caa'
+            'a6f810ec83bb5f2d68a25ff03c6940dfe5e7b2e9bfa59b9629bb703b0e11eb41'
+            '717749721483b8b19e527c3659efe2015a8147e4e6fc2515f96775574a0a40d3'
+            'f74c3222bd024ce7f9b4e881cd910e6ec71ceb8b612caef337f3cd0df9876b03'
+            '47bcc117d311989050d23fb987e6d63df4e09642dd66f950a784759aeb98bea0'
+            'a92ecc160a8e6a6c986b18e9927fa45783f59f81bcbefcb031d8e70accd51db8'
+            '380bcf40cc8396e97bd1d7f2577ab2ace51885858d3f155b1fb2dd5469efd00d')
