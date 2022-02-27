@@ -75,40 +75,40 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropatchpath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/tree/8a543c822d8ab5c7ea9dc6c69cc5e73ece495315
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/tree/8a543c822d8ab5c7ea9dc6c69cc5e73ece495315
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
-        ${manjaropatchpath}/config
+        ${manjaropath}/config
         # Manjaro patches
         # ARCH Patches
-        ${manjaropatchpath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
-        ${manjaropatchpath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
+        ${manjaropath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
+        ${manjaropath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
         # Temp Fixes
         # MANJARO Patches
-        ${manjaropatchpath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch
-        #${manjaropatchpath}/0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch
-        #${manjaropatchpath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch
-        ${manjaropatchpath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
+        ${manjaropath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch
+        #${manjaropath}/0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch
+        #${manjaropath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch
+        ${manjaropath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
         # Lenovo + AMD
-        #${manjaropatchpath}/0201-lenovo-wmi2.patch
+        #${manjaropath}/0201-lenovo-wmi2.patch
         # Bootsplash
-        ${manjaropatchpath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
-        ${manjaropatchpath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
-        ${manjaropatchpath}/0303-revert-fbcon-remove-soft-scrollback-code.patch
-        ${manjaropatchpath}/0401-bootsplash.patch
-        ${manjaropatchpath}/0402-bootsplash.patch
-        ${manjaropatchpath}/0403-bootsplash.patch
-        ${manjaropatchpath}/0404-bootsplash.patch
-        ${manjaropatchpath}/0405-bootsplash.patch
-        ${manjaropatchpath}/0406-bootsplash.patch
-        ${manjaropatchpath}/0407-bootsplash.patch
-        ${manjaropatchpath}/0408-bootsplash.patch
-        ${manjaropatchpath}/0409-bootsplash.patch
-        ${manjaropatchpath}/0410-bootsplash.patch
-        ${manjaropatchpath}/0411-bootsplash.patch
-        ${manjaropatchpath}/0412-bootsplash.patch
-        ${manjaropatchpath}/0413-bootsplash.gitpatch
+        ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
+        ${manjaropath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
+        ${manjaropath}/0303-revert-fbcon-remove-soft-scrollback-code.patch
+        ${manjaropath}/0401-bootsplash.patch
+        ${manjaropath}/0402-bootsplash.patch
+        ${manjaropath}/0403-bootsplash.patch
+        ${manjaropath}/0404-bootsplash.patch
+        ${manjaropath}/0405-bootsplash.patch
+        ${manjaropath}/0406-bootsplash.patch
+        ${manjaropath}/0407-bootsplash.patch
+        ${manjaropath}/0408-bootsplash.patch
+        ${manjaropath}/0409-bootsplash.patch
+        ${manjaropath}/0410-bootsplash.patch
+        ${manjaropath}/0411-bootsplash.patch
+        ${manjaropath}/0412-bootsplash.patch
+        ${manjaropath}/0413-bootsplash.gitpatch
         # Piotr Górski patches
         # Amd64 patches
         ${lucjanpath}/amd64-patches/0001-amd64-patches.patch
