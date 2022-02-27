@@ -448,12 +448,12 @@ build(){
 }
 
 _package(){
-  pkgdesc="The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski AMD64, Block, BLK and CPU patches and Graysky2 kernel_compiler_patch patch"
-  depends=("coreutils" "kmod" "initramfs" "mkinitcpio")
-  optdepends=("linux-firmware: firmware images needed for some devices"
-              "crda: to set the correct wireless channels of your country"
-              "bootsplash-systemd: for bootsplash functionality")
-  provides=("VIRTUALBOX-GUEST-MODULES" "WIREGUARD-MODULE")
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski AMD64, Block, BLK and CPU patches and Graysky2 kernel_compiler_patch patch'
+  depends=(coreutils kmod initramfs mkinitcpio)
+  optdepends=('linux-firmware: firmware images needed for some devices'
+              'crda: to set the correct wireless channels of your country'
+              'bootsplash-systemd: for bootsplash functionality')
+  provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE)
 
   cd "${srcdir}"/linux-$pkgver
 
@@ -482,7 +482,7 @@ _package(){
 
 _package-headers(){
   pkgdesc="Headers and scripts for building modules for the $pkgbase package"
-  depends=("${pkgbase}" "gawk" "python" "libelf" "pahole")
+  depends=("${pkgbase}" gawk python libelf pahole)
 
   cd "${srcdir}"/linux-$pkgver
 
