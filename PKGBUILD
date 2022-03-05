@@ -62,7 +62,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.11
+pkgver=5.16.12
 major=5.16
 manjaromajor=516
 pkgrel=1
@@ -75,7 +75,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/8a543c822d8ab5c7ea9dc6c69cc5e73ece495315
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/0da9fe25a121883c8037d550f18ac7cba95fef72
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -84,6 +84,11 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # ARCH Patches
         ${manjaropath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
         ${manjaropath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
+        ${manjaropath}/0003_Bluetooth_Read_codec_capabilities_only_if_supported.patch
+        ${manjaropath}/0004_Bluetooth_fix_deadlock_for_RFCOMM_sk_state_change.patch
+        ${manjaropath}/0005_mt76_mt7921_add_support_for_PCIe_ID_0x0608-0x0616.patch
+        ${manjaropath}/0006_mt76_mt7921_reduce_log_severity_levels_for_informative_messages.patch
+        ${manjaropath}/0007_Revert_NFSv4.1_query_for_fs_location_attr_on_a_new_file_system.patch
         # Temp Fixes
         # MANJARO Patches
         ${manjaropath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch
@@ -112,12 +117,6 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # Piotr Górski patches
         # Amd64 patches
         ${lucjanpath}/amd64-patches/0001-amd64-patches.patch
-        # Arch patches Fix! Upstream manjaro removed some Arch patches
-        ${lucjanpath}/arch-patches-v5-sep/0003-Bluetooth-Read-codec-capabilities-only-if-supported.patch
-        ${lucjanpath}/arch-patches-v5-sep/0004-Bluetooth-fix-deadlock-for-RFCOMM-sk-state-change.patch
-        ${lucjanpath}/arch-patches-v5-sep/0005-mt76-mt7921-add-support-for-PCIe-ID-0x0608-0x0616.patch
-        ${lucjanpath}/arch-patches-v5-sep/0006-mt76-mt7921-reduce-log-severity-levels-for-informati.patch
-        ${lucjanpath}/arch-patches-v5-sep/0007-Revert-NFSv4.1-query-for-fs_location-attr-on-a-new-f.patch
         # Block patches. Set BFQ as default
         ${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -562,10 +561,15 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=(6d186158a4c44a4df438e0286ee8186f1cc9cc9d8a909d4c3e25a4f7eca8b023
-            3ce2aeeec6c49f5dea5ef7737d2aaf5c3ad4cc32a4ffd932b5389a9e630ddac5
+sha256sums=(bb5a1df15a10a715807a44872ff4fe775337aae445285181f1d1ba0c78b1d7f2
+            12ae6d7ceb35c714fec59a11a2e3d3b57168d67e24b431bae1f0de7305518d9d
             986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421
             b89188b1bc3516d54965dd36def6a2af3d81379e53ff7e527bbd91f77c6f191b
+            adfabecb2e23cfaebe1d493a54119a967a97930dac677e20f26d4bcaa1b80f3c
+            7aa2293dff32463665c2a35054c5164470e24075ddda181715d4079ca126cbbd
+            9c67c62e9e744eaeae43c80d83c9eb61b486406cf18cd057427bdbc44f8e4e10
+            f8fc51c0c644ae743154c37b77ade50fa5a950980c9dd56d8752e4d6b5dfb153
+            24fc6f087aa82a72905f0fb6b9f3f5f18741187d5a425f5ec845dab436ab1c58
             7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978
             5e804e1f241ce542f3f0e83d274ede6aa4b0539e510fb9376f8106e8732ce69b
             2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326
@@ -585,11 +589,6 @@ sha256sums=(6d186158a4c44a4df438e0286ee8186f1cc9cc9d8a909d4c3e25a4f7eca8b023
             60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d
             035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef
             1d5082af4e011cc7e693119b9c89eb621a05495bb4d1c238dd6bbeb7587dc8ff
-            362cbeb8ee42c34ae635815817a4a6585e422a5ab01d36fe6aa5108a28712ed2
-            12947c1f27d1c6b7ec46228f4b71a8eb7b47488e7041015817a9a68ecd451109
-            186058e970add37ac245c97ba40efacbd778b3b7df08e845d752f4f085864686
-            2c83042bb9e5c2f5851567617d0376a53b14494ed4e085af2a7fa1b0194cd071
-            cb29309136affdc47bd13dfd88e611be15c2b301c9a1320cb597807bafce321a
             5223b5cbabf75d0a9e1da40a36cde06fd094763762322f8f5c9014b9e63527cd
             d20bf76974609f24ac092330e0fe0005ac77c401937511e71e6f1d5240042caa
             a6f810ec83bb5f2d68a25ff03c6940dfe5e7b2e9bfa59b9629bb703b0e11eb41
