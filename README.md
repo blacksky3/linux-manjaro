@@ -4,7 +4,7 @@ Linux kernel build with Manjaro patches
 
 # Version
 
-- 5.16.12
+- 5.16.13
 
 # Build
 
