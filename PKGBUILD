@@ -135,8 +135,7 @@ export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 
 prepare(){
-
-  cd linux-$pkgver
+  cd ${srcdir}/linux-$pkgver
 
   # add upstream patch
   #  msg2 "Add upstream patch"
@@ -361,6 +360,22 @@ prepare(){
 
   sleep 2s
 
+  msg2 "Add anbox support"
+  scripts/config --enable CONFIG_ASHMEM
+  # CONFIG_ION is not set
+  scripts/config --enable CONFIG_ANDROID
+  scripts/config --enable CONFIG_ANDROID_BINDER_IPC
+  scripts/config --enable CONFIG_ANDROID_BINDERFS
+  scripts/config --set-str CONFIG_ANDROID_BINDER_DEVICES "binder,hwbinder,vndbinder"
+  # CONFIG_ANDROID_BINDER_IPC_SELFTEST is not set
+
+  sleep 2s
+
+  msg2 "Set CONFIG_GENERIC_CPU"
+  scripts/config --enable CONFIG_GENERIC_CPU
+
+  sleep 2s
+
   msg "Patch addition config"
 
   msg2 "Enable OpenRGB SMBus access"
@@ -383,17 +398,6 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Add anbox support"
-  scripts/config --enable CONFIG_ASHMEM
-  # CONFIG_ION is not set
-  scripts/config --enable CONFIG_ANDROID
-  scripts/config --enable CONFIG_ANDROID_BINDER_IPC
-  scripts/config --enable CONFIG_ANDROID_BINDERFS
-  scripts/config --set-str CONFIG_ANDROID_BINDER_DEVICES "binder,hwbinder,vndbinder"
-  # CONFIG_ANDROID_BINDER_IPC_SELFTEST is not set
-
-  sleep 2s
-
   msg2 "Enable BLK_CGROUP_IOSTAT (IO statistics monitor per cgroup)"
   scripts/config --module CONFIG_BLK_CGROUP_IOSTAT
 
@@ -401,11 +405,6 @@ prepare(){
 
   msg2 "Enable CONFIG_USER_NS_UNPRIVILEGED"
   scripts/config --enable CONFIG_USER_NS
-
-  sleep 2s
-
-  msg2 "Set CONFIG_GENERIC_CPU"
-  scripts/config --enable CONFIG_GENERIC_CPU
 
   sleep 2s
 
@@ -434,8 +433,7 @@ prepare(){
 }
 
 build(){
-
-  cd "${srcdir}"/linux-$pkgver
+  cd ${srcdir}/linux-$pkgver
 
   # make -j$(nproc) all
   msg2 "make -j$(nproc) all..."
@@ -454,7 +452,7 @@ _package(){
               'bootsplash-systemd: for bootsplash functionality')
   provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE)
 
-  cd "${srcdir}"/linux-$pkgver
+  cd ${srcdir}/linux-$pkgver
 
   local kernver="$(<version)"
   local modulesdir="${pkgdir}"/usr/lib/modules/${kernver}
@@ -483,7 +481,7 @@ _package-headers(){
   pkgdesc="Headers and scripts for building modules for the $pkgbase package"
   depends=("${pkgbase}" gawk python libelf pahole)
 
-  cd "${srcdir}"/linux-$pkgver
+  cd ${srcdir}/linux-$pkgver
 
   local builddir="$pkgdir"/usr/lib/modules/"$(<version)"/build
 
