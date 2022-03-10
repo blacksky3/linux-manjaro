@@ -1,6 +1,6 @@
 # linux-manjaro
 
-Linux kernel build with Manjaro patches
+Linux kernel build for Archlinux with Manjaro patches
 
 # Version
 
