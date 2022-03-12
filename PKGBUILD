@@ -62,7 +62,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.13
+pkgver=5.16.14
 major=5.16
 manjaromajor=516
 pkgrel=1
@@ -75,7 +75,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/74dd1004f6f39957057a768db608df71a6c5d8e7
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/03b78decc8af068b6b73c03c1e02c57d22f083f5
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -559,7 +559,7 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=(2f8a9800833aac8256be3c1c6fc87f4dc54bcca150573395eb3e5556c7267fbb
+sha256sums=(7a8ba58659d5e5f0f9e1e0a4fbed39ac520149d24d7aec4636fcf8255d0574f6
             12ae6d7ceb35c714fec59a11a2e3d3b57168d67e24b431bae1f0de7305518d9d
             986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421
             b89188b1bc3516d54965dd36def6a2af3d81379e53ff7e527bbd91f77c6f191b
