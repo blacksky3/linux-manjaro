@@ -62,7 +62,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.14
+pkgver=5.16.15
 major=5.16
 manjaromajor=516
 pkgrel=1
@@ -75,7 +75,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/03b78decc8af068b6b73c03c1e02c57d22f083f5
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/202c834b7d59fff8ebcb4423b76093965f3013c8
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -128,7 +128,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch
         ${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
         # Graysky2 CPU patch
-        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15+.patch)
+        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15-5.16.patch)
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -559,8 +559,8 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=(7a8ba58659d5e5f0f9e1e0a4fbed39ac520149d24d7aec4636fcf8255d0574f6
-            12ae6d7ceb35c714fec59a11a2e3d3b57168d67e24b431bae1f0de7305518d9d
+sha256sums=(8f30c408e0b360def95777edd340b99916f66b27e1fa5121c3368639af0d24d6
+            585d1a7e885ad8cf98408b0c79d9e3ea92ba385acc0c65ee14a41a9bbbdef485
             986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421
             b89188b1bc3516d54965dd36def6a2af3d81379e53ff7e527bbd91f77c6f191b
             adfabecb2e23cfaebe1d493a54119a967a97930dac677e20f26d4bcaa1b80f3c
@@ -594,4 +594,4 @@ sha256sums=(7a8ba58659d5e5f0f9e1e0a4fbed39ac520149d24d7aec4636fcf8255d0574f6
             f74c3222bd024ce7f9b4e881cd910e6ec71ceb8b612caef337f3cd0df9876b03
             47bcc117d311989050d23fb987e6d63df4e09642dd66f950a784759aeb98bea0
             a92ecc160a8e6a6c986b18e9927fa45783f59f81bcbefcb031d8e70accd51db8
-            380bcf40cc8396e97bd1d7f2577ab2ace51885858d3f155b1fb2dd5469efd00d)
+            2893ca70c1812f98cbf1ea1ed0abac7b70c91b21f07c4f6c1816a769bcc34909)
