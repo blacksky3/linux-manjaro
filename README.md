@@ -4,7 +4,7 @@ Linux kernel build for Archlinux with Manjaro patches
 
 # Version
 
-- 5.16.15
+- 5.17
 
 # Build
 

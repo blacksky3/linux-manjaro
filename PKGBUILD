@@ -14,7 +14,7 @@
 #Credits: Philip Müller <philm[at]manjaro[dot]org> ---> For the base PKFBUILD
 #Credits: Tobias Powalowski <tpowa@archlinux.org>
 #Credits: Thomas Baechler <thomas@archlinux.org>
-#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For AMD64, Block and BLK and CPU patches
+#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For Block, BLK and CPU patches
 #Credits: Graysky2 <https://github.com/graysky2> ---> For kernel_compiler_patch
 #Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch> ---> For config setings
 
@@ -62,9 +62,9 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.16.15
-major=5.16
-manjaromajor=516
+pkgver=5.17
+major=5.17
+manjaromajor=517
 pkgrel=1
 arch=(x86_64)
 url='https://www.kernel.org/'
@@ -75,28 +75,16 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/202c834b7d59fff8ebcb4423b76093965f3013c8
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/60ba95b03812b16226d30284c4cb13658789ee4c
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         ${manjaropath}/config
         # Manjaro patches
         # ARCH Patches
-        ${manjaropath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
-        ${manjaropath}/0002-Btintel_Fix_bdaddress_comparison_with_garbage_value.patch
-        ${manjaropath}/0003_Bluetooth_Read_codec_capabilities_only_if_supported.patch
-        ${manjaropath}/0004_Bluetooth_fix_deadlock_for_RFCOMM_sk_state_change.patch
-        ${manjaropath}/0005_mt76_mt7921_add_support_for_PCIe_ID_0x0608-0x0616.patch
-        ${manjaropath}/0006_mt76_mt7921_reduce_log_severity_levels_for_informative_messages.patch
-        ${manjaropath}/0007_Revert_NFSv4.1_query_for_fs_location_attr_on_a_new_file_system.patch
         # Temp Fixes
         # MANJARO Patches
-        ${manjaropath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch
-        #${manjaropath}/0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch
-        #${manjaropath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch
-        ${manjaropath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
         # Lenovo + AMD
-        #${manjaropath}/0201-lenovo-wmi2.patch
         # Bootsplash
         ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
         ${manjaropath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
@@ -115,20 +103,20 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0412-bootsplash.patch
         ${manjaropath}/0413-bootsplash.gitpatch
         # Piotr Górski patches
-        # Amd64 patches
-        ${lucjanpath}/amd64-patches/0001-amd64-patches.patch
+        # Arch patches
+        ${lucjanpath}/arch-patches/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
         # Block patches. Set BFQ as default
         ${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
         ${lucjanpath}/ll-patches/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
         ${lucjanpath}/ll-patches/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
         # BLK patches
-        ${lucjanpath}/blk-patches-v4/0001-blk-patches.patch
+        ${lucjanpath}/blk-patches/0001-blk-patches.patch
         # CPU patches
         ${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch
         ${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
         # Graysky2 CPU patch
-        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15-5.16.patch)
+        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.17+.patch)
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -445,7 +433,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski AMD64, Block, BLK and CPU patches and Graysky2 kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Block, BLK and CPU patches and Graysky2 kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('linux-firmware: firmware images needed for some devices'
               'crda: to set the correct wireless channels of your country'
@@ -559,17 +547,8 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=(8f30c408e0b360def95777edd340b99916f66b27e1fa5121c3368639af0d24d6
-            585d1a7e885ad8cf98408b0c79d9e3ea92ba385acc0c65ee14a41a9bbbdef485
-            986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421
-            b89188b1bc3516d54965dd36def6a2af3d81379e53ff7e527bbd91f77c6f191b
-            adfabecb2e23cfaebe1d493a54119a967a97930dac677e20f26d4bcaa1b80f3c
-            7aa2293dff32463665c2a35054c5164470e24075ddda181715d4079ca126cbbd
-            9c67c62e9e744eaeae43c80d83c9eb61b486406cf18cd057427bdbc44f8e4e10
-            f8fc51c0c644ae743154c37b77ade50fa5a950980c9dd56d8752e4d6b5dfb153
-            24fc6f087aa82a72905f0fb6b9f3f5f18741187d5a425f5ec845dab436ab1c58
-            7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978
-            5e804e1f241ce542f3f0e83d274ede6aa4b0539e510fb9376f8106e8732ce69b
+sha256sums=(555fef61dddb591a83d62dd04e252792f9af4ba9ef14683f64840e46fa20b1b1
+            598494de065b1520270dfa457ea2d1f99a6590ab1bc36c1e101e631bb03e3faf
             2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326
             94a8538251ad148f1025cc3de446ce64f73dc32b01815426fb159c722e8fa5bc
             1f18c5c10a3c63e41ecd05ad34cd9f6653ba96e9f1049ce2b7bb6da2578ae710
@@ -586,12 +565,12 @@ sha256sums=(8f30c408e0b360def95777edd340b99916f66b27e1fa5121c3368639af0d24d6
             27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc
             60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d
             035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef
-            1d5082af4e011cc7e693119b9c89eb621a05495bb4d1c238dd6bbeb7587dc8ff
-            5223b5cbabf75d0a9e1da40a36cde06fd094763762322f8f5c9014b9e63527cd
-            d20bf76974609f24ac092330e0fe0005ac77c401937511e71e6f1d5240042caa
-            a6f810ec83bb5f2d68a25ff03c6940dfe5e7b2e9bfa59b9629bb703b0e11eb41
-            717749721483b8b19e527c3659efe2015a8147e4e6fc2515f96775574a0a40d3
-            f74c3222bd024ce7f9b4e881cd910e6ec71ceb8b612caef337f3cd0df9876b03
-            47bcc117d311989050d23fb987e6d63df4e09642dd66f950a784759aeb98bea0
-            a92ecc160a8e6a6c986b18e9927fa45783f59f81bcbefcb031d8e70accd51db8
-            2893ca70c1812f98cbf1ea1ed0abac7b70c91b21f07c4f6c1816a769bcc34909)
+            4bd1bac2959b989af0dae573123b9aff7c609090537e94ee0ae05099cad977b8
+            4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257
+            a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e
+            6978a2010c3a2dd7bec1260e3f1e0f9d6ebc032664cdd917847f352e58ba2870
+            b5ff6f189a83472b737965e0412ca401af4bc539b308e0d9bfa403294e6795e0
+            790f7db055ea5c5bde76c01e590087fab1666cb09f363d4ae92e6c0da3528c30
+            74546291433f8e79c9c960075edbd7974d715818b1be6c982308adf93e9e9c4f
+            7bf85364c3876a648b542ba5a5ada801181183b29366408ef2b2971edab0bd4c
+            dea86a521603414a8c7bf9cf1f41090d5d6f8035ce31407449e25964befb1e50)
