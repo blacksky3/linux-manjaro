@@ -342,6 +342,16 @@ prepare(){
 
   sleep 2s
 
+  msg2 "Enable Intel Processor P-State driver"
+  scripts/config --enable CONFIG_X86_INTEL_PSTATE
+
+  sleep 2s
+  
+  msg2 "Enable AMD Processor P-State driver"
+  scripts/config --enable CONFIG_X86_AMD_PSTATE
+
+  sleep 2s
+
   msg2 "Enable Fsync support"
   scripts/config --enable CONFIG_FUTEX
   scripts/config --enable CONFIG_FUTEX_PI
