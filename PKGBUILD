@@ -6,17 +6,17 @@
 #                                  |___/
 
 #Maintainer: blacksky3 <blacksky3@tuta.io> <https://github.com/blacksky3>
-#Credits: Jan Alexander Steffens (heftig) <heftig@archlinux.org> ---> For the base PKGBUILD
-#Credits: Andreas Radke <andyrtr@archlinux.org> ---> For the base PKGBUILD
-#Credits: Linus Torvalds ---> For the linux kernel
-#Credits: Joan Figueras <ffigue at gmail dot com> ---> For the base PKFBUILD
-#Credits: Bernhard Landauer <bernhard@manjaro.org> ---> For the base PKFBUILD
-#Credits: Philip Müller <philm[at]manjaro[dot]org> ---> For the base PKFBUILD
+#Credits: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+#Credits: Andreas Radke <andyrtr@archlinux.org>
+#Credits: Joan Figueras <ffigue at gmail dot com>
+#Credits: Bernhard Landauer <bernhard@manjaro.org>
+#Credits: Philip Müller <philm[at]manjaro[dot]org>
 #Credits: Tobias Powalowski <tpowa@archlinux.org>
 #Credits: Thomas Baechler <thomas@archlinux.org>
-#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan> ---> For Block, BLK and CPU patches
-#Credits: Graysky2 <https://github.com/graysky2> ---> For kernel_compiler_patch
-#Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch> ---> For config setings
+#Credits: Linus Torvalds
+#Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan>
+#Credits: Graysky2 <https://github.com/graysky2>
+#Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch>
 
 ################################# Arch ################################
 
@@ -110,8 +110,6 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
         ${lucjanpath}/ll-patches/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
         ${lucjanpath}/ll-patches/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
-        # BLK patches
-        ${lucjanpath}/blk-patches/0001-blk-patches.patch
         # CPU patches
         ${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch
         ${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
@@ -381,6 +379,13 @@ prepare(){
 
   sleep 2s
 
+  msg2 "Enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3"
+  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
+  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_SIZE
+  scripts/config --enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+
+  sleep 2s
+
   msg2 "Enable Bootup splash screen"
   scripts/config --enable CONFIG_BOOTSPLASH
 
@@ -393,11 +398,6 @@ prepare(){
 
   msg2 "Disable -MANJARO in localversion"
   scripts/config --disable CONFIG_LOCALVERSION
-
-  sleep 2s
-
-  msg2 "Enable BLK_CGROUP_IOSTAT (IO statistics monitor per cgroup)"
-  scripts/config --module CONFIG_BLK_CGROUP_IOSTAT
 
   sleep 2s
 
@@ -443,7 +443,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Block, BLK and CPU patches and Graysky2 kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Arch, Block and CPU patches and Graysky2 kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('linux-firmware: firmware images needed for some devices'
               'crda: to set the correct wireless channels of your country'
@@ -580,7 +580,6 @@ sha256sums=(555fef61dddb591a83d62dd04e252792f9af4ba9ef14683f64840e46fa20b1b1
             a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e
             6978a2010c3a2dd7bec1260e3f1e0f9d6ebc032664cdd917847f352e58ba2870
             b5ff6f189a83472b737965e0412ca401af4bc539b308e0d9bfa403294e6795e0
-            790f7db055ea5c5bde76c01e590087fab1666cb09f363d4ae92e6c0da3528c30
             74546291433f8e79c9c960075edbd7974d715818b1be6c982308adf93e9e9c4f
             7bf85364c3876a648b542ba5a5ada801181183b29366408ef2b2971edab0bd4c
             dea86a521603414a8c7bf9cf1f41090d5d6f8035ce31407449e25964befb1e50)
