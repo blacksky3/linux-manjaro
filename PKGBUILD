@@ -14,6 +14,7 @@
 #Credits: Tobias Powalowski <tpowa@archlinux.org>
 #Credits: Thomas Baechler <thomas@archlinux.org>
 #Credits: Linus Torvalds
+#Credits: Alexandre Frade <kernel@xanmod.org> <https://github.com/xanmod> <https://xanmod.org/>
 #Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan>
 #Credits: Graysky2 <graysky@archlinux.us> <https://github.com/graysky2>
 #Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch>
