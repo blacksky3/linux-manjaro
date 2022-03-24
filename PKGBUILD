@@ -15,7 +15,7 @@
 #Credits: Thomas Baechler <thomas@archlinux.org>
 #Credits: Linus Torvalds
 #Credits: Piotr Górski <lucjan.lucjanov@gmail.com> <https://github.com/sirlucjan>
-#Credits: Graysky2 <https://github.com/graysky2>
+#Credits: Graysky2 <graysky@archlinux.us> <https://github.com/graysky2>
 #Credits: Etienne Juvigny (Tk-Glitch) <tkg@froggi.es> <https://github.com/Tk-Glitch>
 
 ################################# Arch ################################
