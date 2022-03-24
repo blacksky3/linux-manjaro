@@ -1,6 +1,6 @@
 # linux-manjaro
 
-Linux kernel build for Archlinux with with Manjaro patches (Bootsplash support) with Piotr Górski Arch, Block, CPU and CPU Power patches and Graysky2 kernel_compiler_patch patch.
+Linux kernel build for Archlinux with Manjaro patches (Bootsplash support) with Piotr Górski Arch, Block and CPU patches, XanMod CPU Power patches and Graysky2 kernel_compiler_patch patch.
 
 # Version
 
@@ -11,7 +11,7 @@ Linux kernel build for Archlinux with with Manjaro patches (Bootsplash support) 
     git clone https://github.com/blacksky3/linux-manjaro.git
     cd linux-manjaro
     env_compiler=(1 or 2) makepkg -s
-    
+
 # Build variables
 
 ### _compiler

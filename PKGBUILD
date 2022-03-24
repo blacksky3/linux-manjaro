@@ -77,6 +77,7 @@ options=(!strip)
 
 manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/60ba95b03812b16226d30284c4cb13658789ee4c
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
+xanmodpath=https://raw.githubusercontent.com/xanmod/linux-patches/master/linux-$major.y-xanmod
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         ${manjaropath}/config
@@ -113,8 +114,9 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # CPU patches
         ${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch
         ${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
+        # XanMod patches
         # CPU Power patches
-        ${lucjanpath}/cpupower-patches/0001-cpupower-patches.patch
+        ${xanmodpath}/cpupower/0001-cpupower-update-for-Linux-5.18-rc1.patch
         # Graysky2 CPU patch
         https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.17+.patch)
 
@@ -346,7 +348,7 @@ prepare(){
   scripts/config --enable CONFIG_X86_INTEL_PSTATE
 
   sleep 2s
-  
+
   msg2 "Enable AMD Processor P-State driver"
   scripts/config --enable CONFIG_X86_AMD_PSTATE
 
@@ -445,7 +447,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Arch, Block, CPU and CPU Power patches and Graysky2 kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Arch, Block and CPU patches, XanMod CPU Power patches and Graysky2 kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('linux-firmware: firmware images needed for some devices'
               'crda: to set the correct wireless channels of your country'
@@ -584,5 +586,5 @@ sha256sums=(555fef61dddb591a83d62dd04e252792f9af4ba9ef14683f64840e46fa20b1b1
             b5ff6f189a83472b737965e0412ca401af4bc539b308e0d9bfa403294e6795e0
             74546291433f8e79c9c960075edbd7974d715818b1be6c982308adf93e9e9c4f
             7bf85364c3876a648b542ba5a5ada801181183b29366408ef2b2971edab0bd4c
-            c92373359de38b4ac831ab69f57c6bb962a14d214beba55593616c9077003aff
+            05715dd3a05812c3a1185ca6831c8bd38cee3352dab343717ed77b49b4b527c0
             dea86a521603414a8c7bf9cf1f41090d5d6f8035ce31407449e25964befb1e50)
