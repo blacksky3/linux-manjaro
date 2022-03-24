@@ -113,6 +113,8 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # CPU patches
         ${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch
         ${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
+        # CPU Power patches
+        ${lucjanpath}/cpupower-patches/0001-cpupower-patches.patch
         # Graysky2 CPU patch
         https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.17+.patch)
 
@@ -443,7 +445,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Arch, Block and CPU patches and Graysky2 kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Arch, Block, CPU and CPU Power patches and Graysky2 kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('linux-firmware: firmware images needed for some devices'
               'crda: to set the correct wireless channels of your country'
@@ -582,4 +584,5 @@ sha256sums=(555fef61dddb591a83d62dd04e252792f9af4ba9ef14683f64840e46fa20b1b1
             b5ff6f189a83472b737965e0412ca401af4bc539b308e0d9bfa403294e6795e0
             74546291433f8e79c9c960075edbd7974d715818b1be6c982308adf93e9e9c4f
             7bf85364c3876a648b542ba5a5ada801181183b29366408ef2b2971edab0bd4c
+            c92373359de38b4ac831ab69f57c6bb962a14d214beba55593616c9077003aff
             dea86a521603414a8c7bf9cf1f41090d5d6f8035ce31407449e25964befb1e50)
