@@ -71,8 +71,7 @@ fi
 options=(!strip)
 
 manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/9fd2239579718759e7c63424677a2c96cabeebdf
-lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
-xanmodpath=https://raw.githubusercontent.com/xanmod/linux-patches/master/linux-$major.y-xanmod
+patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         ${manjaropath}/config
@@ -98,20 +97,22 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0411-bootsplash.patch
         ${manjaropath}/0412-bootsplash.patch
         ${manjaropath}/0413-bootsplash.gitpatch
-        # Piotr Górski patches
+        # Other patches
         # Arch patches
-        ${lucjanpath}/arch-patches/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+        ${patchpath}/arch/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+        ${patchpath}/arch/0002-random-treat-bootloader-trust-toggle-the-same-way-as.patch
+        ${patchpath}/arch/0003-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
         # Block patches. Set BFQ as default
-        ${lucjanpath}/block-patches-sep/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
-        ${lucjanpath}/block-patches-sep/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
-        ${lucjanpath}/ll-patches/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
-        ${lucjanpath}/ll-patches/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
+        ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
+        ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
+        ${patchpath}/block/0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch
+        ${patchpath}/block/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
+        ${patchpath}/block/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
         # CPU patches
-        ${lucjanpath}/cpu-patches-sep/0002-init-Kconfig-enable-O3-for-all-arches.patch
-        ${lucjanpath}/cpu-patches-sep/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
-        # XanMod patches
+        ${patchpath}/cpu/0002-init-Kconfig-enable-O3-for-all-arches.patch
+        ${patchpath}/cpu/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
         # CPU Power patches
-        ${xanmodpath}/cpupower/0001-cpupower-update-for-Linux-5.18-rc1.patch
+        ${patchpath}/cpupower/0001-cpupower-update-for-Linux-5.18-rc1.patch
         # Graysky2 CPU patch
         https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.17+.patch)
 
@@ -442,7 +443,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support) with Piotr Górski Arch, Block and CPU patches, XanMod CPU Power patches and Graysky2 kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), Arch, Block, CPU, CPU Power and kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('linux-firmware: firmware images needed for some devices'
               'crda: to set the correct wireless channels of your country'
@@ -575,8 +576,11 @@ sha256sums=(7cd5c5d432a25f45060868ce6a8578890e550158a2f779c4a20804b551e84c24
             60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d
             035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef
             4bd1bac2959b989af0dae573123b9aff7c609090537e94ee0ae05099cad977b8
+            2826b320e5295d663ec3fdce62472419361fbb3a8b773554ca8819f0cc677ebc
+            9fd6517e1ae736a884d8d80ce9651b8264d87a7b79b358826c2c3c06f234b6eb
             4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257
             a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e
+            3a02c7382d4d490e16a6132fcba89004f73044c34daf65906c1f823d2ab25aeb
             6978a2010c3a2dd7bec1260e3f1e0f9d6ebc032664cdd917847f352e58ba2870
             b5ff6f189a83472b737965e0412ca401af4bc539b308e0d9bfa403294e6795e0
             74546291433f8e79c9c960075edbd7974d715818b1be6c982308adf93e9e9c4f
