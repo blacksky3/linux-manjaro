@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.17
+pkgver=5.17.1
 major=5.17
 manjaromajor=517
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/60ba95b03812b16226d30284c4cb13658789ee4c
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/9fd2239579718759e7c63424677a2c96cabeebdf
 lucjanpath=https://raw.githubusercontent.com/sirlucjan/kernel-patches/master/${major}
 xanmodpath=https://raw.githubusercontent.com/xanmod/linux-patches/master/linux-$major.y-xanmod
 
@@ -556,7 +556,7 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=(555fef61dddb591a83d62dd04e252792f9af4ba9ef14683f64840e46fa20b1b1
+sha256sums=(7cd5c5d432a25f45060868ce6a8578890e550158a2f779c4a20804b551e84c24
             598494de065b1520270dfa457ea2d1f99a6590ab1bc36c1e101e631bb03e3faf
             2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326
             94a8538251ad148f1025cc3de446ce64f73dc32b01815426fb159c722e8fa5bc
