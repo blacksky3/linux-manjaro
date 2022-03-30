@@ -1,6 +1,6 @@
 # linux-manjaro
 
-Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), Arch, Block, CPU, CPU Power and kernel_compiler_patch patch.
+Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), Arch, Block, CPU, CPU Power, Futex and kernel_compiler_patch patch.
 
 # Version
 
