@@ -70,13 +70,16 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/9fd2239579718759e7c63424677a2c96cabeebdf
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/18fee192bbc2946fe6aa544de16c3d7058e4ee94
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         ${manjaropath}/config
         # Manjaro patches
         # ARCH Patches
+        ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
+        ${manjaropath}/0102-random-treat_bootloader_trust_toggle_the_same_way_as_cpu_trust_toggle.patch
+        ${manjaropath}/0103-Revert-swiotlb-rework-fix_info_leak_with_DMA_FROM_DEVICE.patch
         # Temp Fixes
         # MANJARO Patches
         # Lenovo + AMD
@@ -98,10 +101,6 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0412-bootsplash.patch
         ${manjaropath}/0413-bootsplash.gitpatch
         # Other patches
-        # Arch patches
-        ${patchpath}/arch/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-        ${patchpath}/arch/0002-random-treat-bootloader-trust-toggle-the-same-way-as.patch
-        ${patchpath}/arch/0003-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -452,7 +451,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), Arch, Block, CPU, CPU Power, Futex, Wine and kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), Block, CPU, CPU Power, Futex, Wine and kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('linux-firmware: firmware images needed for some devices'
               'crda: to set the correct wireless channels of your country'
