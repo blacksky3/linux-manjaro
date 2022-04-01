@@ -60,7 +60,7 @@ done
 pkgver=5.17.1
 major=5.17
 manjaromajor=517
-pkgrel=3
+pkgrel=1
 arch=(x86_64)
 url='https://www.kernel.org/'
 license=(GPL-2.0)
