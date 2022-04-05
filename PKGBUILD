@@ -101,6 +101,11 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0412-bootsplash.patch
         ${manjaropath}/0413-bootsplash.gitpatch
         # Other patches
+        # Arch patches Hot fix. Not in official manjaro package at this moment
+        ${patchpath}/arch/0003-tick-Detect-and-fix-jiffies-update-stall.patch
+        ${patchpath}/arch/0004-tick-rcu-Remove-obsolete-rcu_needs_cpu-parameters.patch
+        ${patchpath}/arch/0005-tick-rcu-Stop-allowing-RCU_SOFTIRQ-in-idle.patch
+        ${patchpath}/arch/0006-lib-irq_poll-Declare-IRQ_POLL-softirq-vector-as-ksof.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -586,6 +591,10 @@ sha256sums=('7cd5c5d432a25f45060868ce6a8578890e550158a2f779c4a20804b551e84c24'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
+            '310a4ebe648e37b77f2d9a1788d3ce40affa36ebcb8f7c77770fa5f63326ef3b'
+            '7eb152bb39237d9b1468bb786316f204268922046bb23723446ff9cd79bcba40'
+            'c8cd1e2c5a7206cc21894f7e8de124c42e252f55199fa7f7bf20b812daaba213'
+            'cd9d15995d1f437a039b248aa2bd4822d8f00e465fa8018687d31e78349483a7'
             '4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257'
             'a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e'
             '3a02c7382d4d490e16a6132fcba89004f73044c34daf65906c1f823d2ab25aeb'
