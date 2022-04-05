@@ -458,8 +458,8 @@ build(){
 _package(){
   pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), Block, CPU, CPU Power, Futex, Wine and kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
-  optdepends=('linux-firmware: firmware images needed for some devices'
-              'crda: to set the correct wireless channels of your country'
+  optdepends=('wireless-regdb: to set the correct wireless channels of your country'
+              'linux-firmware: firmware images needed for some devices')
               'bootsplash-systemd: for bootsplash functionality')
   provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE)
 
