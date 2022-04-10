@@ -57,20 +57,20 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.17.1
+pkgver=5.17.2
 major=5.17
 manjaromajor=517
 pkgrel=1
 arch=(x86_64)
 url='https://www.kernel.org/'
 license=(GPL-2.0)
-makedepends=(bison flex bc kmod libelf pahole cpio perl tar xz zstd xmlto git gcc gcc-libs glibc binutils make patch)
+makedepends=(bison flex bc libelf pahole cpio perl tar xz zstd xmlto git gcc gcc-libs glibc binutils make patch)
 if [[ "$_compiler" = "2" ]]; then
   makedepends+=(clang llvm llvm-libs lld)
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/18fee192bbc2946fe6aa544de16c3d7058e4ee94
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/81175627290db1e97f0b786142a0e29038fb68b2
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -79,10 +79,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # ARCH Patches
         ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
         ${manjaropath}/0102-random-treat_bootloader_trust_toggle_the_same_way_as_cpu_trust_toggle.patch
-        ${manjaropath}/0103-Revert-swiotlb-rework-fix_info_leak_with_DMA_FROM_DEVICE.patch
-        # Temp Fixes
         # MANJARO Patches
-        # Lenovo + AMD
         # Bootsplash
         ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
         ${manjaropath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
@@ -102,10 +99,14 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0413-bootsplash.gitpatch
         # Other patches
         # Arch patches Hot fix. Not in official manjaro package at this moment
+        ${patchpath}/arch/0002-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
         ${patchpath}/arch/0003-tick-Detect-and-fix-jiffies-update-stall.patch
         ${patchpath}/arch/0004-tick-rcu-Remove-obsolete-rcu_needs_cpu-parameters.patch
         ${patchpath}/arch/0005-tick-rcu-Stop-allowing-RCU_SOFTIRQ-in-idle.patch
         ${patchpath}/arch/0006-lib-irq_poll-Declare-IRQ_POLL-softirq-vector-as-ksof.patch
+        ${patchpath}/arch/0007-x86-speculation-Restore-speculation-related-MSRs-dur.patch
+        ${patchpath}/arch/0008-Reinstate-some-of-swiotlb-rework-fix-info-leak-with-.patch
+        ${patchpath}/arch/0009-Revert-ACPI-processor-idle-Only-flush-cache-on-enter.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -459,7 +460,7 @@ _package(){
   pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), Block, CPU, CPU Power, Futex, Wine and kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('wireless-regdb: to set the correct wireless channels of your country'
-              'linux-firmware: firmware images needed for some devices')
+              'linux-firmware: firmware images needed for some devices'
               'bootsplash-systemd: for bootsplash functionality')
   provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE)
 
@@ -570,11 +571,10 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('7cd5c5d432a25f45060868ce6a8578890e550158a2f779c4a20804b551e84c24'
-            'a94d5d374f4cdb439f3958b50f7af0f4e024fa17d7df3f30e548f40314e210c0'
+sha256sums=('2da20f8437cfe813ddee7dcb95e2c4e9e4e8f6168060c05787668ac3ff3f0b99'
+            '530f83bc8996e20bc108cd8f22ee0add48880e56837c9dba18796a345abf68c9'
             'f85b07d73b2f4ad8bb6b59ee6624b2dd06a03824fc7b00131a01df36c8d899fe'
             'fc9223bf2d430ab1c122daada4f51d835a74f56c007c82842eeca3acd2d788be'
-            'edd40fa0d23e9cbbf5ed7f37b2e0ed8e84798701b08a0dc262afd751acf17e04'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
             '94a8538251ad148f1025cc3de446ce64f73dc32b01815426fb159c722e8fa5bc'
             '1f18c5c10a3c63e41ecd05ad34cd9f6653ba96e9f1049ce2b7bb6da2578ae710'
@@ -591,10 +591,14 @@ sha256sums=('7cd5c5d432a25f45060868ce6a8578890e550158a2f779c4a20804b551e84c24'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '310a4ebe648e37b77f2d9a1788d3ce40affa36ebcb8f7c77770fa5f63326ef3b'
-            '7eb152bb39237d9b1468bb786316f204268922046bb23723446ff9cd79bcba40'
-            'c8cd1e2c5a7206cc21894f7e8de124c42e252f55199fa7f7bf20b812daaba213'
-            'cd9d15995d1f437a039b248aa2bd4822d8f00e465fa8018687d31e78349483a7'
+            '5c17d0824a514e392f2d42689d29a5a8666e37c0a394faa18be87989b749b712'
+            '71cccbed658434bf0394fe91fb0738e661aef9f5a94dffda3c9918a315e825e4'
+            '99c0e2f6aac6a3f5f55fb1e4f3d36f2c9bb38163b2da45b3e43437d3fee4f050'
+            'a046b85754ed7582ec5876d06d3b971e418d079c40801f3e156bb353ef7b802c'
+            '40bde648ef07bc638571a3475e555919df8fd2bdfc5360a920e06178bbcdaf9b'
+            '54ba1866387455129acd74a363dbbf488869347fe9748cb523a591adab1967fb'
+            'f4aab8f15186f114d0e391100dead343296f04bdf9ac995a97d5291a60e477a8'
+            '036603a75bb89c646586fd3c7e6c73c351b9901f1676e8c62ed729e975e50864'
             '4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257'
             'a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e'
             '3a02c7382d4d490e16a6132fcba89004f73044c34daf65906c1f823d2ab25aeb'
