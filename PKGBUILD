@@ -99,13 +99,13 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0413-bootsplash.gitpatch
         # Other patches
         # Arch patches Hot fix. Not in official manjaro package at this moment
-        ${patchpath}/arch/0002-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
+        #${patchpath}/arch/0002-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
         ${patchpath}/arch/0003-tick-Detect-and-fix-jiffies-update-stall.patch
         ${patchpath}/arch/0004-tick-rcu-Remove-obsolete-rcu_needs_cpu-parameters.patch
         ${patchpath}/arch/0005-tick-rcu-Stop-allowing-RCU_SOFTIRQ-in-idle.patch
         ${patchpath}/arch/0006-lib-irq_poll-Declare-IRQ_POLL-softirq-vector-as-ksof.patch
         ${patchpath}/arch/0007-x86-speculation-Restore-speculation-related-MSRs-dur.patch
-        ${patchpath}/arch/0008-Reinstate-some-of-swiotlb-rework-fix-info-leak-with-.patch
+        #${patchpath}/arch/0008-Reinstate-some-of-swiotlb-rework-fix-info-leak-with-.patch
         ${patchpath}/arch/0009-Revert-ACPI-processor-idle-Only-flush-cache-on-enter.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
@@ -591,13 +591,11 @@ sha256sums=('2da20f8437cfe813ddee7dcb95e2c4e9e4e8f6168060c05787668ac3ff3f0b99'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '5c17d0824a514e392f2d42689d29a5a8666e37c0a394faa18be87989b749b712'
             '71cccbed658434bf0394fe91fb0738e661aef9f5a94dffda3c9918a315e825e4'
             '99c0e2f6aac6a3f5f55fb1e4f3d36f2c9bb38163b2da45b3e43437d3fee4f050'
             'a046b85754ed7582ec5876d06d3b971e418d079c40801f3e156bb353ef7b802c'
             '40bde648ef07bc638571a3475e555919df8fd2bdfc5360a920e06178bbcdaf9b'
             '54ba1866387455129acd74a363dbbf488869347fe9748cb523a591adab1967fb'
-            'f4aab8f15186f114d0e391100dead343296f04bdf9ac995a97d5291a60e477a8'
             '036603a75bb89c646586fd3c7e6c73c351b9901f1676e8c62ed729e975e50864'
             '4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257'
             'a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e'
