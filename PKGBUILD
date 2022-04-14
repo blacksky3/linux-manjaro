@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.17.2
+pkgver=5.17.3
 major=5.17
 manjaromajor=517
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/81175627290db1e97f0b786142a0e29038fb68b2
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/2b3c88993a0f1b8a112b634b7833d4a3659a46e1
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -79,6 +79,9 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # ARCH Patches
         ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
         ${manjaropath}/0102-random-treat_bootloader_trust_toggle_the_same_way_as_cpu_trust_toggle.patch
+        ${manjaropath}/0103-tick-Detect_and_fix_jiffies_update_stall.patch
+        ${manjaropath}/0104-tick-rcu-Stop_allowing_RCU_SOFTIRQ_in_idle.patch
+        ${manjaropath}/0105-lib-irq_poll-Declare_IRQ_POLL_softirq_vector_as_ksoftirqd-parking_safe.patch
         # MANJARO Patches
         # Bootsplash
         ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
@@ -100,13 +103,13 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # Other patches
         # Arch patches Hot fix. Not in official manjaro package at this moment
         #${patchpath}/arch/0002-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
-        ${patchpath}/arch/0003-tick-Detect-and-fix-jiffies-update-stall.patch
+        #${patchpath}/arch/0003-tick-Detect-and-fix-jiffies-update-stall.patch
         ${patchpath}/arch/0004-tick-rcu-Remove-obsolete-rcu_needs_cpu-parameters.patch
-        ${patchpath}/arch/0005-tick-rcu-Stop-allowing-RCU_SOFTIRQ-in-idle.patch
-        ${patchpath}/arch/0006-lib-irq_poll-Declare-IRQ_POLL-softirq-vector-as-ksof.patch
-        ${patchpath}/arch/0007-x86-speculation-Restore-speculation-related-MSRs-dur.patch
+        #${patchpath}/arch/0005-tick-rcu-Stop-allowing-RCU_SOFTIRQ-in-idle.patch
+        #${patchpath}/arch/0006-lib-irq_poll-Declare-IRQ_POLL-softirq-vector-as-ksof.patch
+        #${patchpath}/arch/0007-x86-speculation-Restore-speculation-related-MSRs-dur.patch
         #${patchpath}/arch/0008-Reinstate-some-of-swiotlb-rework-fix-info-leak-with-.patch
-        ${patchpath}/arch/0009-Revert-ACPI-processor-idle-Only-flush-cache-on-enter.patch
+        #${patchpath}/arch/0009-Revert-ACPI-processor-idle-Only-flush-cache-on-enter.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -571,10 +574,13 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('2da20f8437cfe813ddee7dcb95e2c4e9e4e8f6168060c05787668ac3ff3f0b99'
-            '530f83bc8996e20bc108cd8f22ee0add48880e56837c9dba18796a345abf68c9'
+sha256sums=('32d0a8e366b87e1cbde951b9f7a01287546670ba60fac35cccfc8a7c005a162c'
+            'bf6769a3783e7e823af731c6239c296d8f2ac030f049b9c0c85f02afcfff79d9'
             'f85b07d73b2f4ad8bb6b59ee6624b2dd06a03824fc7b00131a01df36c8d899fe'
             'fc9223bf2d430ab1c122daada4f51d835a74f56c007c82842eeca3acd2d788be'
+            'f7eb15d563cdbb2c5d780559a1c9564ca8d2dd1ea79fc73a5cc8545278605dad'
+            'ca5bb1ba3cb70020d712fa7f684de7d20d2bd6ad2efe6d92b578ab3b12749b04'
+            '6a7cd911548f2b6618ce667f8b88cf1159e6b455e64b74d802710b4fe83ef0a2'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
             '94a8538251ad148f1025cc3de446ce64f73dc32b01815426fb159c722e8fa5bc'
             '1f18c5c10a3c63e41ecd05ad34cd9f6653ba96e9f1049ce2b7bb6da2578ae710'
@@ -591,12 +597,7 @@ sha256sums=('2da20f8437cfe813ddee7dcb95e2c4e9e4e8f6168060c05787668ac3ff3f0b99'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '71cccbed658434bf0394fe91fb0738e661aef9f5a94dffda3c9918a315e825e4'
             '99c0e2f6aac6a3f5f55fb1e4f3d36f2c9bb38163b2da45b3e43437d3fee4f050'
-            'a046b85754ed7582ec5876d06d3b971e418d079c40801f3e156bb353ef7b802c'
-            '40bde648ef07bc638571a3475e555919df8fd2bdfc5360a920e06178bbcdaf9b'
-            '54ba1866387455129acd74a363dbbf488869347fe9748cb523a591adab1967fb'
-            '036603a75bb89c646586fd3c7e6c73c351b9901f1676e8c62ed729e975e50864'
             '4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257'
             'a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e'
             '3a02c7382d4d490e16a6132fcba89004f73044c34daf65906c1f823d2ab25aeb'
