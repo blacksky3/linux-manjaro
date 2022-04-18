@@ -102,6 +102,8 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0413-bootsplash.gitpatch
         # Other patches
         # Arch patches Hot fix. Not in official manjaro package at this moment
+        #${patchpath}/arch/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+        #${patchpath}/arch/0001-random-treat-bootloader-trust-toggle-the-same-way-as.patch
         #${patchpath}/arch/0002-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
         #${patchpath}/arch/0003-tick-Detect-and-fix-jiffies-update-stall.patch
         ${patchpath}/arch/0004-tick-rcu-Remove-obsolete-rcu_needs_cpu-parameters.patch
@@ -110,6 +112,8 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         #${patchpath}/arch/0007-x86-speculation-Restore-speculation-related-MSRs-dur.patch
         #${patchpath}/arch/0008-Reinstate-some-of-swiotlb-rework-fix-info-leak-with-.patch
         #${patchpath}/arch/0009-Revert-ACPI-processor-idle-Only-flush-cache-on-enter.patch
+        #${patchpath}/arch/0010-gpio-Restrict-usage-of-GPIO-chip-irq-members-before-.patch
+        ${patchpath}/arch/0011-gpio-Request-interrupts-after-IRQ-is-initialized.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -597,7 +601,8 @@ sha256sums=('32d0a8e366b87e1cbde951b9f7a01287546670ba60fac35cccfc8a7c005a162c'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '99c0e2f6aac6a3f5f55fb1e4f3d36f2c9bb38163b2da45b3e43437d3fee4f050'
+            'e53a474ac6dc512a62b1a5774669e6ff460a2e2035d102b84d3ebeb389602f3e'
+            'ee8bae1854a138c0aa29a829587a25a4f5e24cb92581c51134b3062cf551222f'
             '4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257'
             'a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e'
             '3a02c7382d4d490e16a6132fcba89004f73044c34daf65906c1f823d2ab25aeb'
