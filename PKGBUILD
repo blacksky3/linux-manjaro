@@ -115,7 +115,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         #${patchpath}/arch/0008-Reinstate-some-of-swiotlb-rework-fix-info-leak-with-.patch
         #${patchpath}/arch/0009-Revert-ACPI-processor-idle-Only-flush-cache-on-enter.patch
         #${patchpath}/arch/0010-gpio-Restrict-usage-of-GPIO-chip-irq-members-before-.patch
-        ${patchpath}/arch/0011-gpio-Request-interrupts-after-IRQ-is-initialized.patch
+        #${patchpath}/arch/0011-gpio-Request-interrupts-after-IRQ-is-initialized.patch
         #${patchpath}/arch/0012-NFSv4.1-provide-mount-option-to-toggle-trunking-disc.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
@@ -607,7 +607,6 @@ sha256sums=('9bbcd185b94436f9c8fe977fa0e862f60d34003562327fcebb27c9fa342fe987'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
             '87258eac8b7ab6c295add9778a0212977d9e8fd7694c4ab7a786c4b3bb77a9ce'
-            '3880b8a3b382823e46f9351df204f3c739f38b8a3901b7aec359386a30fec6db'
             '4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257'
             'a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e'
             '3a02c7382d4d490e16a6132fcba89004f73044c34daf65906c1f823d2ab25aeb'
