@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.17.5
+pkgver=5.17.6
 major=5.17
 manjaromajor=517
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/f3502e4efde73994819269f7370b8bcf13f69d36
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/7c604408335f45cadacc3566579d400a825e506b
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -80,9 +80,10 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
         ${manjaropath}/0102-random-treat_bootloader_trust_toggle_the_same_way_as_cpu_trust_toggle.patch
         ${manjaropath}/0103-tick-Detect_and_fix_jiffies_update_stall.patch
-        ${manjaropath}/0104-tick-rcu-Stop_allowing_RCU_SOFTIRQ_in_idle.patch
-        ${manjaropath}/0105-lib-irq_poll-Declare_IRQ_POLL_softirq_vector_as_ksoftirqd-parking_safe.patch
-        ${manjaropath}/0106-NFSv4.1_provide_mount_option_to_toggle_trunking_discovery.patch
+        ${manjaropath}/0104-tick-rcu-Remove_obsolete_parameters.patch
+        ${manjaropath}/0105-tick-rcu-Stop_allowing_RCU_SOFTIRQ_in_idle.patch
+        ${manjaropath}/0106-lib-irq_poll-Declare_IRQ_POLL_softirq_vector_as_ksoftirqd-parking_safe.patch
+        ${manjaropath}/0107-NFSv4.1_provide_mount_option_to_toggle_trunking_discovery.patch
         # MANJARO Patches
         ${manjaropath}/0201-rtl_bt_fix_load_firmware.patch
         # Bootsplash
@@ -108,7 +109,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         #${patchpath}/arch/0001-random-treat-bootloader-trust-toggle-the-same-way-as.patch
         #${patchpath}/arch/0002-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
         #${patchpath}/arch/0003-tick-Detect-and-fix-jiffies-update-stall.patch
-        ${patchpath}/arch/0004-tick-rcu-Remove-obsolete-rcu_needs_cpu-parameters.patch
+        #${patchpath}/arch/0004-tick-rcu-Remove-obsolete-rcu_needs_cpu-parameters.patch
         #${patchpath}/arch/0005-tick-rcu-Stop-allowing-RCU_SOFTIRQ-in-idle.patch
         #${patchpath}/arch/0006-lib-irq_poll-Declare-IRQ_POLL-softirq-vector-as-ksof.patch
         #${patchpath}/arch/0007-x86-speculation-Restore-speculation-related-MSRs-dur.patch
@@ -581,11 +582,12 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('9bbcd185b94436f9c8fe977fa0e862f60d34003562327fcebb27c9fa342fe987'
+sha256sums=('64ccf18380be5b5491322a3fd54904538b544e523e4bf86289dd8df7404cb10c'
             '84ca995ed4dc942643474b2730533f6815d03f817829d988c31f66e3c723fc24'
             'f85b07d73b2f4ad8bb6b59ee6624b2dd06a03824fc7b00131a01df36c8d899fe'
             'fc9223bf2d430ab1c122daada4f51d835a74f56c007c82842eeca3acd2d788be'
             'f7eb15d563cdbb2c5d780559a1c9564ca8d2dd1ea79fc73a5cc8545278605dad'
+            'e17f4175131fd5224b438be00b55ac6496ec6c25ac2c6fcc3ec6f9a94e6b3221'
             'ca5bb1ba3cb70020d712fa7f684de7d20d2bd6ad2efe6d92b578ab3b12749b04'
             '6a7cd911548f2b6618ce667f8b88cf1159e6b455e64b74d802710b4fe83ef0a2'
             '305e5f1844c5f919f8de1873e11b88dec305dfa8cc2245e75e7c157e01bc1443'
@@ -606,7 +608,6 @@ sha256sums=('9bbcd185b94436f9c8fe977fa0e862f60d34003562327fcebb27c9fa342fe987'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '87258eac8b7ab6c295add9778a0212977d9e8fd7694c4ab7a786c4b3bb77a9ce'
             '4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257'
             'a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e'
             '3a02c7382d4d490e16a6132fcba89004f73044c34daf65906c1f823d2ab25aeb'
