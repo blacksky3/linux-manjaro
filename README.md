@@ -4,7 +4,7 @@ Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), Arch
 
 # Version
 
-- 5.17.7
+- 5.17.9
 
 # Build
 
