@@ -57,9 +57,9 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.17.9
-major=5.17
-manjaromajor=517
+pkgver=5.18
+major=5.18
+manjaromajor=518
 pkgrel=1
 arch=(x86_64)
 url='https://www.kernel.org/'
@@ -70,22 +70,14 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/5cd5cc0cbbba7f56a64e6edcd67e3cf11ff63127
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/600364c36afd93267b8609837cc22e301ac8cf81
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         ${manjaropath}/config
         # Manjaro patches
         # ARCH Patches
-        ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
-        ${manjaropath}/0102-random-treat_bootloader_trust_toggle_the_same_way_as_cpu_trust_toggle.patch
-        ${manjaropath}/0103-tick-Detect_and_fix_jiffies_update_stall.patch
-        ${manjaropath}/0104-tick-rcu-Remove_obsolete_parameters.patch
-        ${manjaropath}/0105-tick-rcu-Stop_allowing_RCU_SOFTIRQ_in_idle.patch
-        ${manjaropath}/0106-lib-irq_poll-Declare_IRQ_POLL_softirq_vector_as_ksoftirqd-parking_safe.patch
-        ${manjaropath}/0107-NFSv4.1_provide_mount_option_to_toggle_trunking_discovery.patch
         # MANJARO Patches
-        ${manjaropath}/0201-rtl_bt_fix_load_firmware.patch
         # Bootsplash
         ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
         ${manjaropath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
@@ -104,35 +96,25 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0412-bootsplash.patch
         ${manjaropath}/0413-bootsplash.gitpatch
         # Other patches
+        # AMD patches
+        ${patchpath}/amd/0001-amd-patches-v1.patch
         # Arch patches Hot fix. Not in official manjaro package at this moment
-        #${patchpath}/arch/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-        #${patchpath}/arch/0001-random-treat-bootloader-trust-toggle-the-same-way-as.patch
-        #${patchpath}/arch/0002-Revert-swiotlb-rework-fix-info-leak-with-DMA_FROM_DE.patch
-        #${patchpath}/arch/0003-tick-Detect-and-fix-jiffies-update-stall.patch
-        #${patchpath}/arch/0004-tick-rcu-Remove-obsolete-rcu_needs_cpu-parameters.patch
-        #${patchpath}/arch/0005-tick-rcu-Stop-allowing-RCU_SOFTIRQ-in-idle.patch
-        #${patchpath}/arch/0006-lib-irq_poll-Declare-IRQ_POLL-softirq-vector-as-ksof.patch
-        #${patchpath}/arch/0007-x86-speculation-Restore-speculation-related-MSRs-dur.patch
-        #${patchpath}/arch/0008-Reinstate-some-of-swiotlb-rework-fix-info-leak-with-.patch
-        #${patchpath}/arch/0009-Revert-ACPI-processor-idle-Only-flush-cache-on-enter.patch
-        #${patchpath}/arch/0010-gpio-Restrict-usage-of-GPIO-chip-irq-members-before-.patch
-        #${patchpath}/arch/0011-gpio-Request-interrupts-after-IRQ-is-initialized.patch
-        #${patchpath}/arch/0012-NFSv4.1-provide-mount-option-to-toggle-trunking-disc.patch
+        ${patchpath}/arch/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
         ${patchpath}/block/0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch
         ${patchpath}/block/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
         ${patchpath}/block/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
+        # BTRFS patches
+        ${patchpath}/btrfs/0001-btrfs-patches-v3.patch
         # CPU patches
         ${patchpath}/cpu/0002-init-Kconfig-enable-O3-for-all-arches.patch
         ${patchpath}/cpu/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
-        # CPU Power patches
-        ${patchpath}/cpupower/0001-cpupower-update-for-Linux-5.18-rc1.patch
         # Futex
         ${patchpath}/futex/0001-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode.patch
         # Wine
-        ${patchpath}/wine/0001-winesync-Introduce-the-winesync-driver-and-character.patch
+        ${patchpath}/wine/0007-v5.18-winesync-v3.patch
         # Graysky2 CPU patch
         https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.17+.patch)
 
@@ -157,8 +139,8 @@ prepare(){
     patch -Np1 < "../$src"
   done
 
-  #msg2 "Apply 0413-bootsplash"
-  #git apply -p1 < "../0413-bootsplash.gitpatch"
+  msg2 "Apply 0413-bootsplash"
+  git apply -p1 < "../0413-bootsplash.gitpatch"
 
   plain ""
 
@@ -394,8 +376,8 @@ prepare(){
 
   msg "Patch addition config"
 
-  msg2 "Enable OpenRGB SMBus access"
-  scripts/config --module CONFIG_I2C_NCT6775
+  msg2 "Enable CONFIG_USER_NS_UNPRIVILEGED"
+  scripts/config --enable CONFIG_USER_NS
 
   sleep 2s
 
@@ -406,7 +388,12 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Enable winesync"
+  msg2 "Enable PERF_EVENTS_AMD_BRS"
+  scripts/config --enable CONFIG_PERF_EVENTS_AMD_BRS
+
+  sleep 2s
+
+  msg2 "Enable Winesync"
   scripts/config --enable CONFIG_WINESYNC
 
   sleep 2s
@@ -423,11 +410,6 @@ prepare(){
 
   msg2 "Disable -MANJARO in localversion"
   scripts/config --disable CONFIG_LOCALVERSION
-
-  sleep 2s
-
-  msg2 "Enable CONFIG_USER_NS_UNPRIVILEGED"
-  scripts/config --enable CONFIG_USER_NS
 
   sleep 2s
 
@@ -468,7 +450,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), Block, CPU, CPU Power, Futex, Wine and kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD, Arch, Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('wireless-regdb: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices'
@@ -509,7 +491,7 @@ _package-headers(){
   local builddir="$pkgdir"/usr/lib/modules/"$(<version)"/build
 
   msg2 "Installing build files..."
-  install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map localversion version vmlinux
+  install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map *localversion* version vmlinux
   install -Dt "$builddir/kernel" -m644 kernel/Makefile
   install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
   cp -t "$builddir" -a scripts
@@ -582,16 +564,8 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('172424bc41ef2df9b19457ceb022b56a51eb9497529b15ce7e9b8d6f90ad5978'
-            '0df92b4fba502d7e087e7631fbd4df1d94df46aedf14b80e94527ffc13b76459'
-            'f85b07d73b2f4ad8bb6b59ee6624b2dd06a03824fc7b00131a01df36c8d899fe'
-            'fc9223bf2d430ab1c122daada4f51d835a74f56c007c82842eeca3acd2d788be'
-            'f7eb15d563cdbb2c5d780559a1c9564ca8d2dd1ea79fc73a5cc8545278605dad'
-            'e17f4175131fd5224b438be00b55ac6496ec6c25ac2c6fcc3ec6f9a94e6b3221'
-            'ca5bb1ba3cb70020d712fa7f684de7d20d2bd6ad2efe6d92b578ab3b12749b04'
-            '6a7cd911548f2b6618ce667f8b88cf1159e6b455e64b74d802710b4fe83ef0a2'
-            '305e5f1844c5f919f8de1873e11b88dec305dfa8cc2245e75e7c157e01bc1443'
-            'e96d2093539cc23824a6c0dc725332b9c626da14c1bec00dc5ca537ccafb0194'
+sha256sums=('51f3f1684a896e797182a0907299cc1f0ff5e5b51dd9a55478ae63a409855cee'
+            '523ffb848dd39df0fb93f668e1985b514a23ae31b1892c415753b83651979c04'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
             '94a8538251ad148f1025cc3de446ce64f73dc32b01815426fb159c722e8fa5bc'
             '1f18c5c10a3c63e41ecd05ad34cd9f6653ba96e9f1049ce2b7bb6da2578ae710'
@@ -608,14 +582,16 @@ sha256sums=('172424bc41ef2df9b19457ceb022b56a51eb9497529b15ce7e9b8d6f90ad5978'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '4d385d6a7f7fd9f9aba19d5c24c24814e1af370ff245c8dc98b03482a27cb257'
-            'a043e4c393395e6ad50d35c973fa0952f5deb109aee8a23103e24297c027641e'
-            '3a02c7382d4d490e16a6132fcba89004f73044c34daf65906c1f823d2ab25aeb'
-            '6978a2010c3a2dd7bec1260e3f1e0f9d6ebc032664cdd917847f352e58ba2870'
-            'b5ff6f189a83472b737965e0412ca401af4bc539b308e0d9bfa403294e6795e0'
-            '74546291433f8e79c9c960075edbd7974d715818b1be6c982308adf93e9e9c4f'
-            '7bf85364c3876a648b542ba5a5ada801181183b29366408ef2b2971edab0bd4c'
-            '05715dd3a05812c3a1185ca6831c8bd38cee3352dab343717ed77b49b4b527c0'
-            '5f6906d9f8c1bd9b30486eba07f2c03ca1849cc5c6a990127ebd81c6e105ac45'
-            '7a7fb14b0e2bef1f1b7b0b3cd1870062db504fdf6510ca913231cf901d89e92e'
+            '9824cd3a41db040bf28d6538aa4805f869333139cbcf43e0422e1b42f5401270'
+            '4bd1bac2959b989af0dae573123b9aff7c609090537e94ee0ae05099cad977b8'
+            '9c0e1dea6f645eee9b09cf7d264b17f00f636bdda35c93d354562dda0d674005'
+            'ba63855b09eb27c4c33b4302560acec739e642ee8122d3c867b9f11deb06bc56'
+            'e4dd2216fc31d0eab68d674cbbce70343f920c5146613e97fe8c3afed3139157'
+            '7a7f9a4d66abe261f35373002e3556b8af7204d155896c2e6d1b55d74a31b5b8'
+            '3829e6f9dd55e5c0ae997d409b15c8784e7584a820c7aa0941d50ed6dffeab31'
+            'ada818c395255b5112c047208816f0234d9930428782d14915c83e2d197fa0ae'
+            'cd634fe619625b01584cd01534b23c2d4eca8146c9690205806b0db5d8029906'
+            '26fd09d627f83eb78ecd7e65356731d501b89fbc6cd339018aa1ccd708c4756f'
+            'd1939e9d71df2d1b3bd2c60c26e2f26246f4d8f2a93e131e4ee8d49ba7dfc74f'
+            '057631ecc148b41e0037d200a69cbbfbed8cdcf27eede3d8cd6936566b6ebc68'
             'dea86a521603414a8c7bf9cf1f41090d5d6f8035ce31407449e25964befb1e50')
