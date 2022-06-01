@@ -1,10 +1,10 @@
 # linux-manjaro
 
-Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), AMD. Arch, Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch.
+Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), AMD. Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch.
 
 # Version
 
-- 5.18
+- 5.18.1
 
 # Build
 

@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.18
+pkgver=5.18.1
 major=5.18
 manjaromajor=518
 pkgrel=1
@@ -70,13 +70,14 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/600364c36afd93267b8609837cc22e301ac8cf81
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/e0c499453d4a6f534855a7b0f39ab98d1db75452
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         ${manjaropath}/config
         # Manjaro patches
         # ARCH Patches
+        ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
         # MANJARO Patches
         # Bootsplash
         ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
@@ -98,8 +99,6 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # Other patches
         # AMD patches
         ${patchpath}/amd/0001-amd-patches-v1.patch
-        # Arch patches Hot fix. Not in official manjaro package at this moment
-        ${patchpath}/arch/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -450,7 +449,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD, Arch, Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD, Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('wireless-regdb: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices'
@@ -564,8 +563,9 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('51f3f1684a896e797182a0907299cc1f0ff5e5b51dd9a55478ae63a409855cee'
-            '523ffb848dd39df0fb93f668e1985b514a23ae31b1892c415753b83651979c04'
+sha256sums=('83d14126c660186a7a1774a4a5c29d38e170fa5e52cfd2d08fd344dcf1f57d22'
+            '2e6358fcf3db9052035eff0b03abbf28d0ad45637c35bffa10b8924bcc282a47'
+            '05f04019d4a2ee072238c32860fa80d673687d84d78ef436ae9332b6fb788467'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
             '94a8538251ad148f1025cc3de446ce64f73dc32b01815426fb159c722e8fa5bc'
             '1f18c5c10a3c63e41ecd05ad34cd9f6653ba96e9f1049ce2b7bb6da2578ae710'
@@ -583,7 +583,6 @@ sha256sums=('51f3f1684a896e797182a0907299cc1f0ff5e5b51dd9a55478ae63a409855cee'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
             '9824cd3a41db040bf28d6538aa4805f869333139cbcf43e0422e1b42f5401270'
-            '4bd1bac2959b989af0dae573123b9aff7c609090537e94ee0ae05099cad977b8'
             '9c0e1dea6f645eee9b09cf7d264b17f00f636bdda35c93d354562dda0d674005'
             'ba63855b09eb27c4c33b4302560acec739e642ee8122d3c867b9f11deb06bc56'
             'e4dd2216fc31d0eab68d674cbbce70343f920c5146613e97fe8c3afed3139157'
