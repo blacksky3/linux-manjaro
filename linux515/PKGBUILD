@@ -84,10 +84,11 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0006-lg-laptop_Recognize_more_models.patch
         # MANJARO Patches
         ${manjaropath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch
-        ${manjaropath}/0103-futex.patch # https://github.com/sirlucjan/kernel-patches
+        # Dont use futex manjaro patch
+        #${manjaropath}/0103-futex.patch # https://github.com/sirlucjan/kernel-patches
         ${manjaropath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch
         ${manjaropath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
-        ${manjaropath}/0108-drm_i915_Add_workaround_numbers_to_GEN7_COMMON_SLICE_CHICKEN1_whitelisting.patch::https://patchwork.freedesktop.org/patch/463650/raw/
+        0108-drm_i915_Add_workaround_numbers_to_GEN7_COMMON_SLICE_CHICKEN1_whitelisting.patch::https://patchwork.freedesktop.org/patch/463650/raw/
         # Lenovo + AMD
         ${manjaropath}/0201-lenovo-wmi2.patch
         # other patches
@@ -588,9 +589,20 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('83d14126c660186a7a1774a4a5c29d38e170fa5e52cfd2d08fd344dcf1f57d22'
-            '2e6358fcf3db9052035eff0b03abbf28d0ad45637c35bffa10b8924bcc282a47'
-            '05f04019d4a2ee072238c32860fa80d673687d84d78ef436ae9332b6fb788467'
+sha256sums=('9bfabc38e56758bd0cfe22715a3f9a74cdf4a8870f3b150a03d2ffda29f832dc'
+            'b8ae9ec98eac7767ef387c38107373861247ec5d8fdc339be5465101eeefcfdf'
+            '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
+            'e2823eff3355b7c88a3fa327ea2f84f23cbd36569e0a5f0f76599023f63a52ca'
+            'ce53090a4572cd6162d22225113082f7e4df5028a1230529d170460e26dcf849'
+            '76701599bbafa49b90ccb073ef29ce2dc3731566e8fa852bd1e9e7796e184754'
+            'a2a0a0542055a6a921542fbb05cedb6eb6f3d3fb0c038bfb2304bfd3931a0f71'
+            '7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978'
+            'd9330ea593829a6ef3b824db9570253280cbff7da2b4beb47cbc037824d1a29b'
+            '5e804e1f241ce542f3f0e83d274ede6aa4b0539e510fb9376f8106e8732ce69b'
+            'e8e6120035977903a7117ba215809b9b162b64a789848107513f219180baaada'
+            '1d58ef2991c625f6f0eb33b4cb8303932f53f1c4694e42bae24c9cd36d2ad013'
+            '04fd3142561aa3cd7f4e469099ae294b47b02f4a5b344ff7c813d8593eb634d8'
+            'f8fc51c0c644ae743154c37b77ade50fa5a950980c9dd56d8752e4d6b5dfb153'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
             '94a8538251ad148f1025cc3de446ce64f73dc32b01815426fb159c722e8fa5bc'
             '1f18c5c10a3c63e41ecd05ad34cd9f6653ba96e9f1049ce2b7bb6da2578ae710'
@@ -607,15 +619,28 @@ sha256sums=('83d14126c660186a7a1774a4a5c29d38e170fa5e52cfd2d08fd344dcf1f57d22'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '9824cd3a41db040bf28d6538aa4805f869333139cbcf43e0422e1b42f5401270'
-            '9c0e1dea6f645eee9b09cf7d264b17f00f636bdda35c93d354562dda0d674005'
-            'ba63855b09eb27c4c33b4302560acec739e642ee8122d3c867b9f11deb06bc56'
-            'e4dd2216fc31d0eab68d674cbbce70343f920c5146613e97fe8c3afed3139157'
-            '7a7f9a4d66abe261f35373002e3556b8af7204d155896c2e6d1b55d74a31b5b8'
-            '3829e6f9dd55e5c0ae997d409b15c8784e7584a820c7aa0941d50ed6dffeab31'
-            'ada818c395255b5112c047208816f0234d9930428782d14915c83e2d197fa0ae'
-            'cd634fe619625b01584cd01534b23c2d4eca8146c9690205806b0db5d8029906'
-            '26fd09d627f83eb78ecd7e65356731d501b89fbc6cd339018aa1ccd708c4756f'
-            'd1939e9d71df2d1b3bd2c60c26e2f26246f4d8f2a93e131e4ee8d49ba7dfc74f'
-            '057631ecc148b41e0037d200a69cbbfbed8cdcf27eede3d8cd6936566b6ebc68'
-            'dea86a521603414a8c7bf9cf1f41090d5d6f8035ce31407449e25964befb1e50')
+            '0f687dcbbecba41f624b03fb544082d5587e722b4920321bfd36ac61d038b8ea'
+            'd9d121b7620f6c374fc0a793b33890ba25617e345236b09d1f6e5910344835f0'
+            '98d29e68a9f970defab137d6058f75209efdc2739e06241a5b26f1b58ff54409'
+            'ade211013109c6cfc1c7a213f68efbe6487d038d3a26352de7bd48e3d8757ab8'
+            'd399a3b76155ecfbf124532696a32f174e50237a8a057f182ae33d8b3bb3036d'
+            '78c55f6223350bf700d4a435d12d94542d6caedaf67676ca23b03515807b8990'
+            '98b995784c9180304de9fb268a42d2f371ce97312ba0003a5424994d89c26d43'
+            'f13ecee1c705d4282126a48b75fe97be04599ef347818b1a44d9190465cf4187'
+            '7aeb32e413bb0ce78124af8b48bfcf08fc7f9a2bae47d3f2cf120225d318d5a0'
+            '07f2de483a69073ff0346e58e729618f9b4d1fe691b24a74f597519488925209'
+            'a353c60f990168dfdb301aad65539c00aa19a1b39290c2ad2cec796e667e431e'
+            '44808ec8f0e5f748781c45c45b874371357e45fd833c18bbffb0fe15a5d52b82'
+            '542f86b5fd00c9cb692c5533efbebb14cf9adfc7b8ae683b2dedadcb079cba5b'
+            '3fbb1429afcdd874c0168f2f4b9e6ae11f81ffb47e447723eef038bab2c3e928'
+            'b3434b546e4bd6b62c64685da1a7ecfaf6d3b6172b3ab0c217c6a998a68b2368'
+            'b75c8a1721dda647496da98eea65c94f796667f8dee2f75a08e12dbbb2bed09a'
+            '3f37ca67531f98821c7c463e1938b778d5df640f29a2c8002ad5482277736069'
+            'a6a5d7d24966db0e0bfaa41821d48952e2242439a6a6688e3931464d0335d122'
+            '051cbbbebaab19743a549033907dc3eb607e4db8813f8a22d8348b6ddab61d15'
+            'fefdf9ba2de8d0e47762cb62bb1c5203f628d24591d3b2790da7107362297573'
+            '23958b10de61714b68d5f908f996d736ddf673a66852bcc9d92a34896e6575b8'
+            'a63bcaa5425c0a689ad095ac7fb308284dbc46c70ac1d3c02d1953b6bad00c3e'
+            'a22bbaad5447a0f0c3870be1791d00fb3712ba265ad5a3b04ecbfa1020618359'
+            '3f58fa4e0b63b97643054888750732c96ecce38ca6830e561d9c64efe4bf9553'
+            '2893ca70c1812f98cbf1ea1ed0abac7b70c91b21f07c4f6c1816a769bcc34909')
