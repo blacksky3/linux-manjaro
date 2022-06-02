@@ -49,7 +49,7 @@ fi
 
 ###################################################################################
 
-pkgbase=linux-manjaro
+pkgbase=linux518
 pkgname=("$pkgbase" "$pkgbase-headers")
 for _p in "${pkgname[@]}"; do
   eval "package_$_p() {

@@ -49,7 +49,7 @@ fi
 
 ###################################################################################
 
-pkgbase=linux-manjaro
+pkgbase=linux515
 pkgname=("$pkgbase" "$pkgbase-headers")
 for _p in "${pkgname[@]}"; do
   eval "package_$_p() {
@@ -57,9 +57,9 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.18.1
-major=5.18
-manjaromajor=518
+pkgver=5.15.44
+major=5.15
+manjaromajor=515
 pkgrel=1
 arch=(x86_64)
 url='https://www.kernel.org/'
@@ -70,15 +70,29 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/e0c499453d4a6f534855a7b0f39ab98d1db75452
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/7c2b6200bf64797da8756e1fa29d269d9797b2a6
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         ${manjaropath}/config
         # Manjaro patches
         # ARCH Patches
-        ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
+        ${manjaropath}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch
+        ${manjaropath}/0002-PCI_Add_more_NVIDIA_controllers_to_the_MSI_masking_quirk.patch
+        ${manjaropath}/0003-iommu_intel_do_deep_dma-unmapping_to_avoid_kernel-flooding.patch
+        ${manjaropath}/0005-Bluetooth_btintel_Fix_bdaddress_comparison_with_garbage_value.patch
+        ${manjaropath}/0006-lg-laptop_Recognize_more_models.patch
         # MANJARO Patches
+        ${manjaropath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch
+        ${manjaropath}/0103-futex.patch # https://github.com/sirlucjan/kernel-patches
+        ${manjaropath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch
+        ${manjaropath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
+        ${manjaropath}/0108-drm_i915_Add_workaround_numbers_to_GEN7_COMMON_SLICE_CHICKEN1_whitelisting.patch::https://patchwork.freedesktop.org/patch/463650/raw/
+        # Lenovo + AMD
+        ${manjaropath}/0201-lenovo-wmi2.patch
+        # other patches
+        ${manjaropath}/0202-mt76-mt7921-add-support-for-PCIe-ID-0x7922-0x0608-0x0616.patch
+        ${manjaropath}/0203_mt76_mt7921_reduce_log_severity_levels_for_informative_messages.patch
         # Bootsplash
         ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
         ${manjaropath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
@@ -97,25 +111,39 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0412-bootsplash.patch
         ${manjaropath}/0413-bootsplash.gitpatch
         # Other patches
-        # AMD patches
-        ${patchpath}/amd/0001-amd-patches-v1.patch
+        # AMD P-State patches
+        ${patchpath}/amd-pstate/0001-x86-cpufeatures-add-AMD-Collaborative-Processor-Perf.patch
+        ${patchpath}/amd-pstate/0002-x86-msr-add-AMD-CPPC-MSR-definitions.patch
+        ${patchpath}/amd-pstate/0003-ACPI-CPPC-implement-support-for-SystemIO-registers.patch
+        #${patchpath}/amd-pstate/0004-ACPI-CPPC-Check-present-CPUs-for-determining-_CPC-is.patch
+        ${patchpath}/amd-pstate/0005-ACPI-CPPC-add-cppc-enable-register-function.patch
+        ${patchpath}/amd-pstate/0006-cpufreq-amd-pstate-introduce-a-new-AMD-P-State-drive.patch
+        ${patchpath}/amd-pstate/0007-cpufreq-amd-pstate-add-fast-switch-function-for-AMD-.patch
+        ${patchpath}/amd-pstate/0008-cpufreq-amd-pstate-introduce-the-support-for-the-pro.patch
+        ${patchpath}/amd-pstate/0009-cpufreq-amd-pstate-add-trace-for-AMD-P-State-module.patch
+        ${patchpath}/amd-pstate/0010-cpufreq-amd-pstate-add-boost-mode-support-for-AMD-P-.patch
+        ${patchpath}/amd-pstate/0011-cpufreq-amd-pstate-add-AMD-P-State-frequencies-attri.patch
+        ${patchpath}/amd-pstate/0012-cpufreq-amd-pstate-add-AMD-P-State-performance-attri.patch
+        ${patchpath}/amd-pstate/0013-Documentation-AMD-P-State-add-AMD-P-State-driver-int.patch
+        ${patchpath}/amd-pstate/0014-MAINTAINERS-add-AMD-P-State-driver-maintainer-entry.patch
+        # AMD64 patches
+        ${patchpath}/amd64/0001-amd64-patches-v2.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
-        ${patchpath}/block/0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch
         ${patchpath}/block/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
         ${patchpath}/block/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
-        # BTRFS patches
-        ${patchpath}/btrfs/0001-btrfs-patches-v3.patch
         # CPU patches
         ${patchpath}/cpu/0002-init-Kconfig-enable-O3-for-all-arches.patch
         ${patchpath}/cpu/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
         # Futex
-        ${patchpath}/futex/0001-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode.patch
+        ${patchpath}/futex/0001-futex-Implement-sys_futex_waitv.patch
+        ${patchpath}/futex/0002-futex-x86-Wire-up-sys_futex_waitv.patch
+        ${patchpath}/futex/0003-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode.patch
         # Wine
-        ${patchpath}/wine/0007-v5.18-winesync-v3.patch
+        ${patchpath}/wine/0001-winesync-Introduce-the-winesync-driver-and-character.patch
         # Graysky2 CPU patch
-        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.17+.patch)
+        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15-5.16.patch)
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -168,6 +196,8 @@ prepare(){
 
     sleep 2s
   fi
+
+  msg "Base config"
 
   msg2 "Set kernel compression mode to ZSTD"
   scripts/config --enable CONFIG_HAVE_KERNEL_GZIP
@@ -346,11 +376,6 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Enable AMD Processor P-State driver"
-  scripts/config --enable CONFIG_X86_AMD_PSTATE
-
-  sleep 2s
-
   msg2 "Enable Fsync support"
   scripts/config --enable CONFIG_FUTEX
   scripts/config --enable CONFIG_FUTEX_PI
@@ -387,8 +412,8 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Enable PERF_EVENTS_AMD_BRS"
-  scripts/config --enable CONFIG_PERF_EVENTS_AMD_BRS
+  msg2 "Enable AMD Processor P-State driver"
+  scripts/config --enable CONFIG_X86_AMD_PSTATE
 
   sleep 2s
 
@@ -449,7 +474,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD, Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD-Pstate, AMD64, Block, CPU, Futex, Wine and kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('wireless-regdb: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices'

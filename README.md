@@ -1,15 +1,23 @@
 # linux-manjaro
 
+## linux515
+
+Linux kernel and modules with Manjaro patches (Bootsplash support), AMD-Pstate, AMD64, Block, CPU, Futex, Wine and kernel_compiler_patch patch
+
+## linux518
+
 Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), AMD. Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch.
 
 # Version
 
-- 5.18.1
+- linux518 : 5.18.1
+
+- linux515 : 5.15.44
 
 # Build
 
     git clone https://github.com/blacksky3/linux-manjaro.git
-    cd linux-manjaro
+    cd linux-manjaro/{linux515,linux518}
     env_compiler=(1 or 2) makepkg -s
 
 # Build variables
