@@ -10,9 +10,9 @@ Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), AMD.
 
 # Version
 
-- linux518 : 5.18.1
-
 - linux515 : 5.15.44
+
+- linux518 : 5.18.1
 
 # Build
 
