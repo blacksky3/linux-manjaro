@@ -6,13 +6,13 @@ Linux kernel and modules with Manjaro patches (Bootsplash support), AMD-Pstate, 
 
 ## linux518
 
-Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), AMD. Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch.
+Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), AMD. Block, Clearlinux, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch.
 
 # Version
 
-- linux515 : 5.15.47
+- linux515 : 5.15.48
 
-- linux518 : 5.18.4
+- linux518 : 5.18.5
 
 # Build
 

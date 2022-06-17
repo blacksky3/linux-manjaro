@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.15.47
+pkgver=5.15.48
 major=5.15
 manjaromajor=515
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/e03484b495f9a46553bd96daadba9b5a980f9d7f
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/a735521d927955ddf12eb53a89e88cc0a741564f
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -589,7 +589,7 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('8b235e3aadeb5f8d5b3623b35a99179498e2f3d7f4e9457e46bd461f8496009c'
+sha256sums=('19f0075d1b94d6874a2af7127a59b6b6c423fc7d4a883a51415543e7ec1be2a6'
             'b8ae9ec98eac7767ef387c38107373861247ec5d8fdc339be5465101eeefcfdf'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             'e2823eff3355b7c88a3fa327ea2f84f23cbd36569e0a5f0f76599023f63a52ca'

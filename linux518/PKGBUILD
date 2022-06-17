@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.18.4
+pkgver=5.18.5
 major=5.18
 manjaromajor=518
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/9c11d83f8566e957b6864ee387c05f20493be416
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/70297877cf83272fbb607b7bdbcc29aa533adb53
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -108,7 +108,9 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${patchpath}/block/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
         ${patchpath}/block/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
         # BTRFS patches
-        ${patchpath}/btrfs/0001-btrfs-patches-v5.patch
+        ${patchpath}/btrfs/0001-btrfs-patches-v7.patch
+        # Clearlinux patches
+        ${patchpath}/clearlinux/sirlucjan/0001-clearlinux-patches-v5.patch
         # CPU patches
         ${patchpath}/cpu/0002-init-Kconfig-enable-O3-for-all-arches.patch
         ${patchpath}/cpu/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
@@ -451,7 +453,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD, Block, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD, Block, Clearlinux, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('wireless-regdb: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices'
@@ -565,7 +567,7 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('4b7193476f79c56b0d9988f68777dd0f885a1965e6fd55ec015922aa789492dd'
+sha256sums=('9c3731d405994f9cd3a1bb72e83140735831b19c7cec18e0d7a8f3046fa034e7'
             '2e6358fcf3db9052035eff0b03abbf28d0ad45637c35bffa10b8924bcc282a47'
             '05f04019d4a2ee072238c32860fa80d673687d84d78ef436ae9332b6fb788467'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
@@ -591,7 +593,8 @@ sha256sums=('4b7193476f79c56b0d9988f68777dd0f885a1965e6fd55ec015922aa789492dd'
             'e4dd2216fc31d0eab68d674cbbce70343f920c5146613e97fe8c3afed3139157'
             '7a7f9a4d66abe261f35373002e3556b8af7204d155896c2e6d1b55d74a31b5b8'
             '3829e6f9dd55e5c0ae997d409b15c8784e7584a820c7aa0941d50ed6dffeab31'
-            '65560f8b6a46f3713926e8cf76409b9119fceecd1561553493249f17782fd976'
+            '3625411ecd641bb9fcec4f88c084996e8714b542ea7d472ebc0b0f657c7cd6a8'
+            '3e217f0cb056bd823b0d593e5fb66e6acd891a21e1ba6343b7b976c4f9075521'
             'cd634fe619625b01584cd01534b23c2d4eca8146c9690205806b0db5d8029906'
             '26fd09d627f83eb78ecd7e65356731d501b89fbc6cd339018aa1ccd708c4756f'
             'd1939e9d71df2d1b3bd2c60c26e2f26246f4d8f2a93e131e4ee8d49ba7dfc74f'
