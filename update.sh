@@ -18,3 +18,5 @@ echo "${source}"
 cd linux515 && updpkgsums && cd ${source}
 
 cd linux518 && updpkgsums && cd ${source}
+
+cd linux519 && updpkgsums && cd ${source}
