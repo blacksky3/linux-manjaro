@@ -21,8 +21,12 @@ cd linux515 && makepkg -s && rm -rf pkg/ src/ && cd ${source}
 
 cd linux518 && makepkg -s && rm -rf pkg/ src/ && cd ${source}
 
+cd linux519 && makepkg -s && rm -rf pkg/ src/ && cd ${source}
+
 # clang
 
 #cd linux515 && env _compiler=2 makepkg -s && rm -rf pkg/ src/ && cd ${source}
 
 #cd linux518 && env _compiler=2 makepkg -s && rm -rf pkg/ src/ && cd ${source}
+
+#cd linux519 && env _compiler=2 makepkg -s && rm -rf pkg/ src/ && cd ${source}
