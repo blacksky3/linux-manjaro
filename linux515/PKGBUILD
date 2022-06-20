@@ -428,13 +428,18 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Remove manjaro from default hostname"
-  scripts/config --set-str CONFIG_DEFAULT_HOSTNAME "none"
+  msg2 "Remove manjaro from CONFIG_DEFAULT_HOSTNAME and set it to archlinux"
+  scripts/config --set-str CONFIG_DEFAULT_HOSTNAME "archlinux"
 
   sleep 2s
 
-  msg2 "Disable -MANJARO in localversion"
-  scripts/config --disable CONFIG_LOCALVERSION
+  msg2 "Remove -MANJARO in CONFIG_LOCALVERSION"
+  scripts/config --set-str CONFIG_LOCALVERSION ""
+
+  sleep 2s
+
+  msg2 "Enable CONFIG_LOCALVERSION_AUTO"
+  scripts/config --enable CONFIG_LOCALVERSION_AUTO
 
   sleep 2s
 
