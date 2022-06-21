@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/70297877cf83272fbb607b7bdbcc29aa533adb53
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/3c1048fef9a33af5c2015ff5253aaa9d7d9308a4
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -78,6 +78,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # Manjaro patches
         # ARCH Patches
         ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
+        ${manjaropath}/0102-HID_apple_Properly_handle_function_keys_on_Keychron_keyboards.patch
         # MANJARO Patches
         # Bootsplash
         ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
@@ -99,8 +100,6 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         # Other patches
         # AMD patches
         ${patchpath}/amd/0001-amd-patches-v2.patch
-        # Arch patches. Not present in official manjaro package
-        ${patchpath}/arch/0001-HID-apple-Properly-handle-function-keys-on-Keychron-.patch
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -575,6 +574,7 @@ _package-headers(){
 sha256sums=('9c3731d405994f9cd3a1bb72e83140735831b19c7cec18e0d7a8f3046fa034e7'
             '2e6358fcf3db9052035eff0b03abbf28d0ad45637c35bffa10b8924bcc282a47'
             '05f04019d4a2ee072238c32860fa80d673687d84d78ef436ae9332b6fb788467'
+            '0586d4e1295264ab86104e19835d94d71c4b5f69edafc99d2d14a8f3322f58aa'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
             '94a8538251ad148f1025cc3de446ce64f73dc32b01815426fb159c722e8fa5bc'
             '1f18c5c10a3c63e41ecd05ad34cd9f6653ba96e9f1049ce2b7bb6da2578ae710'
@@ -592,7 +592,6 @@ sha256sums=('9c3731d405994f9cd3a1bb72e83140735831b19c7cec18e0d7a8f3046fa034e7'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
             '1bf652a04412a58b0254066a4731be869bfbe2cff15f0648e31e6b3d3e337a36'
-            '2c9378d3c41751fdd9bb51ad47b43659c89f09904e8dc0264689dc6182d41c4b'
             '9c0e1dea6f645eee9b09cf7d264b17f00f636bdda35c93d354562dda0d674005'
             'ba63855b09eb27c4c33b4302560acec739e642ee8122d3c867b9f11deb06bc56'
             'e4dd2216fc31d0eab68d674cbbce70343f920c5146613e97fe8c3afed3139157'
