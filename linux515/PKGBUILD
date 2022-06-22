@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.15.48
+pkgver=5.15.49
 major=5.15
 manjaromajor=515
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/a735521d927955ddf12eb53a89e88cc0a741564f
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/24afe5e95d619e9a1fda2d2de626e7bfb28a37ff
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -129,6 +129,8 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${patchpath}/amd-pstate/0014-MAINTAINERS-add-AMD-P-State-driver-maintainer-entry.patch
         # AMD64 patches
         ${patchpath}/amd64/0001-amd64-patches-v2.patch
+        # Arch patches. Not in manjaro package
+        ${patchpath}/arch/0006_fix_NFSv4_mount_regression.diff
         # Block patches. Set BFQ as default
         ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
         ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
@@ -152,6 +154,10 @@ export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EP
 
 prepare(){
   cd ${srcdir}/linux-$pkgver
+
+  # fix NFSv4 mounting issue regression - FS#73838 / FS#73860
+  # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/patch/?id=6f2836341d8a39e1e000572b10959347d7e61fd9
+  patch -Rp1 -i ../0006_fix_NFSv4_mount_regression.diff
 
   # add upstream patch
   #  msg2 "Add upstream patch"
@@ -594,7 +600,7 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('19f0075d1b94d6874a2af7127a59b6b6c423fc7d4a883a51415543e7ec1be2a6'
+sha256sums=('32497893ba47f4ad32a59fa4254e8c25e41bc821798e3b2f2443822fa00059dc'
             'b8ae9ec98eac7767ef387c38107373861247ec5d8fdc339be5465101eeefcfdf'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             'e2823eff3355b7c88a3fa327ea2f84f23cbd36569e0a5f0f76599023f63a52ca'
@@ -638,6 +644,7 @@ sha256sums=('19f0075d1b94d6874a2af7127a59b6b6c423fc7d4a883a51415543e7ec1be2a6'
             '44808ec8f0e5f748781c45c45b874371357e45fd833c18bbffb0fe15a5d52b82'
             '542f86b5fd00c9cb692c5533efbebb14cf9adfc7b8ae683b2dedadcb079cba5b'
             '3fbb1429afcdd874c0168f2f4b9e6ae11f81ffb47e447723eef038bab2c3e928'
+            'e9527ad81d5b1821a7b17c56cb3abaec85785563f51e448cb3c06f1c68e2966f'
             'b3434b546e4bd6b62c64685da1a7ecfaf6d3b6172b3ab0c217c6a998a68b2368'
             'b75c8a1721dda647496da98eea65c94f796667f8dee2f75a08e12dbbb2bed09a'
             '3f37ca67531f98821c7c463e1938b778d5df640f29a2c8002ad5482277736069'
