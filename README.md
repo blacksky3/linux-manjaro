@@ -14,11 +14,11 @@ Linux kernel build for Archlinux with Manjaro patches, Block, CPU, Futex, kernel
 
 # Version
 
-- linux515 : 5.15.49
+- linux515 : 5.15.51
 
-- linux518 : 5.18.6
+- linux518 : 5.18.8
 
-- linux519 : 5.19-rc3
+- linux519 : 5.19-rc4
 
 # Build
 

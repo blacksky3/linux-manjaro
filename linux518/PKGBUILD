@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.18.6
+pkgver=5.18.8
 major=5.18
 manjaromajor=518
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/05b4ac8f48fca733b7377ff18a9858268b440fbd
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/9acdd314d1112c183e7d67fac86199cbe8c092e5
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -107,7 +107,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${patchpath}/block/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
         ${patchpath}/block/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
         # BTRFS patches
-        ${patchpath}/btrfs/0001-btrfs-patches-v11.patch
+        ${patchpath}/btrfs/0001-btrfs-patches-v13.patch
         # Clearlinux patches
         ${patchpath}/clearlinux/sirlucjan/0001-clearlinux-patches-v5.patch
         # CPU patches
@@ -571,8 +571,8 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('4e1c2a9e79847850029571a1dd04761e5f657b52c558070a085365641f133478'
-            '2e6358fcf3db9052035eff0b03abbf28d0ad45637c35bffa10b8924bcc282a47'
+sha256sums=('0823eb05dba001cf9e2560a76dfa4d81c854e1dcfbfb25cc73ba64cd7e900a36'
+            '75ad1d77ee5f796d13ee2a93b5106103501e5cfa0937d9d9aa48865819094c24'
             '05f04019d4a2ee072238c32860fa80d673687d84d78ef436ae9332b6fb788467'
             '0586d4e1295264ab86104e19835d94d71c4b5f69edafc99d2d14a8f3322f58aa'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
@@ -597,7 +597,7 @@ sha256sums=('4e1c2a9e79847850029571a1dd04761e5f657b52c558070a085365641f133478'
             'e4dd2216fc31d0eab68d674cbbce70343f920c5146613e97fe8c3afed3139157'
             '7a7f9a4d66abe261f35373002e3556b8af7204d155896c2e6d1b55d74a31b5b8'
             '3829e6f9dd55e5c0ae997d409b15c8784e7584a820c7aa0941d50ed6dffeab31'
-            'bb3102a564490c44441a5c16db96ab61374b62e1458f52e1244144200437ac84'
+            '5181515db5a591307806b9b96fc71c704178048cc1de9ec72089d58ccc1526d3'
             '3e217f0cb056bd823b0d593e5fb66e6acd891a21e1ba6343b7b976c4f9075521'
             'cd634fe619625b01584cd01534b23c2d4eca8146c9690205806b0db5d8029906'
             '26fd09d627f83eb78ecd7e65356731d501b89fbc6cd339018aa1ccd708c4756f'
