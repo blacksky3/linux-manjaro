@@ -57,10 +57,10 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.19rc4
+pkgver=5.19rc5
 major=5.19
 manjaromajor=519
-rcversion=rc4
+rcversion=rc5
 pkgrel=1
 arch=(x86_64)
 url='https://www.kernel.org/'
@@ -71,7 +71,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/37be6412063525e12b96170cfcc1f844f11cbb75
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/6b1fe363e6f6b9dedca9e752bf15cf865ec02068
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/5.18
 
 source=(https://github.com/torvalds/linux/archive/refs/tags/v$major-$rcversion.tar.gz
@@ -568,8 +568,8 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('ccd7110dad8dcc260e2891ea3c89bd4aaad0cbe2c055b1280147e76ece20f06c'
-            '50078e9fc3d6a8a94a21dcd9435bc110a47b9bf20c510512d057a129b6f31494'
+sha256sums=('7aa05b40165aa9ec60c7a9b78c0a14ff41d601d1db02e4f7b2565631986b86dd'
+            '1419b97150acdfdfba5b26ec579d7c402e91aa9aee1c4df0379c93ee11f2cffb'
             '05f04019d4a2ee072238c32860fa80d673687d84d78ef436ae9332b6fb788467'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
             '9c0e1dea6f645eee9b09cf7d264b17f00f636bdda35c93d354562dda0d674005'
