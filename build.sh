@@ -21,7 +21,7 @@ cd linux515 && makepkg -s && rm -rf pkg/ src/ && cd ${source}
 
 cd linux518 && makepkg -s && rm -rf pkg/ src/ && cd ${source}
 
-cd linux519 && makepkg -s && rm -rf pkg/ src/ && cd ${source}
+#cd linux519 && makepkg -s && rm -rf pkg/ src/ && cd ${source}
 
 # clang
 
