@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.18.10
+pkgver=5.18.15
 major=5.18
 manjaromajor=518
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/413ce839aad251ab0cb3b8897fd3b4135fdf708e
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/7652f417eb703c8bc0654dae5dae3521ba960d7e
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -96,29 +96,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0410-bootsplash.patch
         ${manjaropath}/0411-bootsplash.patch
         ${manjaropath}/0412-bootsplash.patch
-        ${manjaropath}/0413-bootsplash.gitpatch
-        # Other patches
-        # AMD patches
-        ${patchpath}/amd/0001-amd-patches-v2.patch
-        # Block patches. Set BFQ as default
-        ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
-        ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
-        ${patchpath}/block/0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch
-        ${patchpath}/block/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
-        ${patchpath}/block/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
-        # BTRFS patches
-        ${patchpath}/btrfs/0001-btrfs-patches-v14.patch
-        # Clearlinux patches
-        ${patchpath}/clearlinux/sirlucjan/0001-clearlinux-patches-v5.patch
-        # CPU patches
-        ${patchpath}/cpu/0002-init-Kconfig-enable-O3-for-all-arches.patch
-        ${patchpath}/cpu/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
-        # Futex
-        ${patchpath}/futex/sirlucjan/0001-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode-v1.patch
-        # Wine
-        ${patchpath}/wine/tkg/0007-v5.18-winesync-v3.patch
-        # Graysky2 CPU patch
-        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.17+.patch)
+        ${manjaropath}/0413-bootsplash.gitpatch)
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -383,22 +361,10 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3"
-  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
-  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_SIZE
-  scripts/config --enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+  #msg2 "Enable PERF_EVENTS_AMD_BRS"
+  #scripts/config --enable CONFIG_PERF_EVENTS_AMD_BRS
 
-  sleep 2s
-
-  msg2 "Enable PERF_EVENTS_AMD_BRS"
-  scripts/config --enable CONFIG_PERF_EVENTS_AMD_BRS
-
-  sleep 2s
-
-  msg2 "Enable Winesync"
-  scripts/config --enable CONFIG_WINESYNC
-
-  sleep 2s
+  #sleep 2s
 
   msg2 "Enable Bootup splash screen"
   scripts/config --enable CONFIG_BOOTSPLASH
@@ -457,7 +423,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD, Block, Clearlinux, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support)'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('wireless-regdb: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices'
@@ -571,8 +537,8 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('f99e3d01dbb8ee6fe765d9cb2b2e073afd2dc581c0d3979751c862745d73dee3'
-            'f96254613e5d880aefca492cb54a3eb65aeae92f4f82f4859ce0e359b96663ef'
+sha256sums=('69804febdc388a69dfb64493b7b58d402853de3a14144ea8db7fd67c30dcbe3c'
+            '74430e266b3e4cc23c80894ef1bdb03a1e161212945c6fa223499171a23b11bf'
             '05f04019d4a2ee072238c32860fa80d673687d84d78ef436ae9332b6fb788467'
             '0586d4e1295264ab86104e19835d94d71c4b5f69edafc99d2d14a8f3322f58aa'
             '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
@@ -590,17 +556,4 @@ sha256sums=('f99e3d01dbb8ee6fe765d9cb2b2e073afd2dc581c0d3979751c862745d73dee3'
             'e9f22cbb542591087d2d66dc6dc912b1434330ba3cd13d2df741d869a2c31e89'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
-            '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '1bf652a04412a58b0254066a4731be869bfbe2cff15f0648e31e6b3d3e337a36'
-            '9c0e1dea6f645eee9b09cf7d264b17f00f636bdda35c93d354562dda0d674005'
-            'ba63855b09eb27c4c33b4302560acec739e642ee8122d3c867b9f11deb06bc56'
-            'e4dd2216fc31d0eab68d674cbbce70343f920c5146613e97fe8c3afed3139157'
-            '7a7f9a4d66abe261f35373002e3556b8af7204d155896c2e6d1b55d74a31b5b8'
-            '3829e6f9dd55e5c0ae997d409b15c8784e7584a820c7aa0941d50ed6dffeab31'
-            '18ff5050e3e58501a50a66851ff5bf0f7ba720585e23d23a60f335ecc99a66c5'
-            '3e217f0cb056bd823b0d593e5fb66e6acd891a21e1ba6343b7b976c4f9075521'
-            'cd634fe619625b01584cd01534b23c2d4eca8146c9690205806b0db5d8029906'
-            '26fd09d627f83eb78ecd7e65356731d501b89fbc6cd339018aa1ccd708c4756f'
-            'd1939e9d71df2d1b3bd2c60c26e2f26246f4d8f2a93e131e4ee8d49ba7dfc74f'
-            '057631ecc148b41e0037d200a69cbbfbed8cdcf27eede3d8cd6936566b6ebc68'
-            'dea86a521603414a8c7bf9cf1f41090d5d6f8035ce31407449e25964befb1e50')
+            '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef')

@@ -2,23 +2,23 @@
 
 ## linux515
 
-Linux kernel and modules with Manjaro patches (Bootsplash support), AMD-Pstate, AMD64, Block, CPU, Futex, Wine and kernel_compiler_patch patch
+Linux kernel and modules with Manjaro patches (Bootsplash support).
 
 ## linux518
 
-Linux kernel build for Archlinux with Manjaro patches (Bootsplash support), AMD, Block, Clearlinux, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch.
+Linux kernel build for Archlinux with Manjaro patches (Bootsplash support).
 
 ## linux519
 
-Linux kernel build for Archlinux with Manjaro patches, Block, CPU, Futex, kernel_compiler_patch patch.
+Linux kernel build for Archlinux with Manjaro patches.
 
 # Version
 
-- linux515 : 5.15.53
+- linux515 : 5.15.58
 
-- linux518 : 5.18.10
+- linux518 : 5.18.15
 
-- linux519 : 5.19-rc5
+- linux519 : 5.19-rc8
 
 # Build
 

@@ -57,10 +57,10 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.19rc5
+pkgver=5.19rc8
 major=5.19
 manjaromajor=519
-rcversion=rc5
+rcversion=rc8
 pkgrel=1
 arch=(x86_64)
 url='https://www.kernel.org/'
@@ -71,7 +71,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/6b1fe363e6f6b9dedca9e752bf15cf865ec02068
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/1ca3c314a53723e0ef09f0255b1770998c1b383c
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/5.18
 
 source=(https://github.com/torvalds/linux/archive/refs/tags/v$major-$rcversion.tar.gz
@@ -82,7 +82,7 @@ source=(https://github.com/torvalds/linux/archive/refs/tags/v$major-$rcversion.t
         ${manjaropath}/0101-ZEN_Add_sysctl_and_CONFIG_to_disallow_unprivileged_CLONE_NEWUSER.patch
         # MANJARO Patches
         # Bootsplash
-        ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch
+        ${manjaropath}/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch)
         #${manjaropath}/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch
         #${manjaropath}/0303-revert-fbcon-remove-soft-scrollback-code.patch
         #${manjaropath}/0401-bootsplash.patch
@@ -97,21 +97,8 @@ source=(https://github.com/torvalds/linux/archive/refs/tags/v$major-$rcversion.t
         #${manjaropath}/0410-bootsplash.patch
         #${manjaropath}/0411-bootsplash.patch
         #${manjaropath}/0412-bootsplash.patch
-        #${manjaropath}/0413-bootsplash.gitpatch
-        # Other patches
-        # Block patches. Set BFQ as default
-        ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
-        ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
-        ${patchpath}/block/0003-block-set-rq_affinity-2-for-full-multithreading-I-O.patch
-        ${patchpath}/block/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
-        ${patchpath}/block/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
-        # CPU patches
-        ${patchpath}/cpu/0002-init-Kconfig-enable-O3-for-all-arches.patch
-        ${patchpath}/cpu/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
-        # Futex
-        https://raw.githubusercontent.com/blacksky3/patches/main/5.19/futex/tkg/0007-v5.19-fsync1_via_futex_waitv-v1.patch
-        # Graysky2 CPU patch
-        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.17+.patch)
+        #${manjaropath}/0413-bootsplash.gitpatch)
+
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -384,13 +371,6 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3"
-  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
-  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_SIZE
-  scripts/config --enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
-
-  sleep 2s
-
   #msg2 "Enable Bootup splash screen"
   #scripts/config --enable CONFIG_BOOTSPLASH
 
@@ -449,8 +429,8 @@ build(){
 }
 
 _package(){
-  #pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD, Block, Clearlinux, CPU, BTRFS, Futex, Wine and kernel_compiler_patch patch'
-  pkgdesc='The Linux kernel and modules with Manjaro patches, Block, Clearlinux, CPU, Futex and kernel_compiler_patch patch'
+  #pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support)'
+  pkgdesc='The Linux kernel and modules with Manjaro patches'
   depends=(coreutils kmod initramfs mkinitcpio)
   # optdepends=('wireless-regdb: to set the correct wireless channels of your country'
   #             'linux-firmware: firmware images needed for some devices'
@@ -568,16 +548,7 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('7aa05b40165aa9ec60c7a9b78c0a14ff41d601d1db02e4f7b2565631986b86dd'
+sha256sums=('1f52eb88e511c3b7f7e3373418195f0db5d2acf9ff7623554371537bf785399a'
             '1419b97150acdfdfba5b26ec579d7c402e91aa9aee1c4df0379c93ee11f2cffb'
             '05f04019d4a2ee072238c32860fa80d673687d84d78ef436ae9332b6fb788467'
-            '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326'
-            '9c0e1dea6f645eee9b09cf7d264b17f00f636bdda35c93d354562dda0d674005'
-            'ba63855b09eb27c4c33b4302560acec739e642ee8122d3c867b9f11deb06bc56'
-            'e4dd2216fc31d0eab68d674cbbce70343f920c5146613e97fe8c3afed3139157'
-            '7a7f9a4d66abe261f35373002e3556b8af7204d155896c2e6d1b55d74a31b5b8'
-            '3829e6f9dd55e5c0ae997d409b15c8784e7584a820c7aa0941d50ed6dffeab31'
-            'cd634fe619625b01584cd01534b23c2d4eca8146c9690205806b0db5d8029906'
-            '26fd09d627f83eb78ecd7e65356731d501b89fbc6cd339018aa1ccd708c4756f'
-            '9df628fd530950e37d31da854cb314d536f33c83935adf5c47e71266a55f7004'
-            'dea86a521603414a8c7bf9cf1f41090d5d6f8035ce31407449e25964befb1e50')
+            '2b11905b63b05b25807dd64757c779da74dd4c37e36d3f7a46485b1ee5a9d326')

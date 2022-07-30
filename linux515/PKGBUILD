@@ -57,7 +57,7 @@ for _p in "${pkgname[@]}"; do
     _package${_p#$pkgbase}
   }"
 done
-pkgver=5.15.53
+pkgver=5.15.58
 major=5.15
 manjaromajor=515
 pkgrel=1
@@ -70,7 +70,7 @@ if [[ "$_compiler" = "2" ]]; then
 fi
 options=(!strip)
 
-manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/ca1b84a48cb2569bbe711501fd913ce1fbf716ef
+manjaropath=https://gitlab.manjaro.org/packages/core/linux${manjaromajor}/-/raw/b9e01e4205d62289cda7dbf0c139c0d670535876
 patchpath=https://raw.githubusercontent.com/blacksky3/patches/main/$major
 
 source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
@@ -84,8 +84,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0006-lg-laptop_Recognize_more_models.patch
         # MANJARO Patches
         ${manjaropath}/0101-i2c-nuvoton-nc677x-hwmon-driver.patch
-        # Dont use futex manjaro patch
-        #${manjaropath}/0103-futex.patch # https://github.com/sirlucjan/kernel-patches
+        ${manjaropath}/0103-futex.patch # https://github.com/sirlucjan/kernel-patches
         ${manjaropath}/0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch
         ${manjaropath}/0105-quirk-kernel-org-bug-210681-firmware_rome_error.patch
         0108-drm_i915_Add_workaround_numbers_to_GEN7_COMMON_SLICE_CHICKEN1_whitelisting.patch::https://patchwork.freedesktop.org/patch/463650/raw/
@@ -110,43 +109,7 @@ source=(https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.
         ${manjaropath}/0410-bootsplash.patch
         ${manjaropath}/0411-bootsplash.patch
         ${manjaropath}/0412-bootsplash.patch
-        ${manjaropath}/0413-bootsplash.gitpatch
-        # Other patches
-        # AMD P-State patches
-        ${patchpath}/amd-pstate/0001-x86-cpufeatures-add-AMD-Collaborative-Processor-Perf.patch
-        ${patchpath}/amd-pstate/0002-x86-msr-add-AMD-CPPC-MSR-definitions.patch
-        ${patchpath}/amd-pstate/0003-ACPI-CPPC-implement-support-for-SystemIO-registers.patch
-        #${patchpath}/amd-pstate/0004-ACPI-CPPC-Check-present-CPUs-for-determining-_CPC-is.patch
-        ${patchpath}/amd-pstate/0005-ACPI-CPPC-add-cppc-enable-register-function.patch
-        ${patchpath}/amd-pstate/0006-cpufreq-amd-pstate-introduce-a-new-AMD-P-State-drive.patch
-        ${patchpath}/amd-pstate/0007-cpufreq-amd-pstate-add-fast-switch-function-for-AMD-.patch
-        ${patchpath}/amd-pstate/0008-cpufreq-amd-pstate-introduce-the-support-for-the-pro.patch
-        ${patchpath}/amd-pstate/0009-cpufreq-amd-pstate-add-trace-for-AMD-P-State-module.patch
-        ${patchpath}/amd-pstate/0010-cpufreq-amd-pstate-add-boost-mode-support-for-AMD-P-.patch
-        ${patchpath}/amd-pstate/0011-cpufreq-amd-pstate-add-AMD-P-State-frequencies-attri.patch
-        ${patchpath}/amd-pstate/0012-cpufreq-amd-pstate-add-AMD-P-State-performance-attri.patch
-        ${patchpath}/amd-pstate/0013-Documentation-AMD-P-State-add-AMD-P-State-driver-int.patch
-        ${patchpath}/amd-pstate/0014-MAINTAINERS-add-AMD-P-State-driver-maintainer-entry.patch
-        # AMD64 patches
-        ${patchpath}/amd64/0001-amd64-patches-v2.patch
-        # Arch patches. Not in manjaro package
-        ${patchpath}/arch/0006_fix_NFSv4_mount_regression.diff
-        # Block patches. Set BFQ as default
-        ${patchpath}/block/0001-block-Kconfig.iosched-set-default-value-of-IOSCHED_B.patch
-        ${patchpath}/block/0002-block-Fix-depends-for-BLK_DEV_ZONED.patch
-        ${patchpath}/block/0002-LL-elevator-set-default-scheduler-to-bfq-for-blk-mq.patch
-        ${patchpath}/block/0003-LL-elevator-always-use-bfq-unless-overridden-by-flag.patch
-        # CPU patches
-        ${patchpath}/cpu/0002-init-Kconfig-enable-O3-for-all-arches.patch
-        ${patchpath}/cpu/0004-Makefile-Turn-off-loop-vectorization-for-GCC-O3-opti.patch
-        # Futex
-        ${patchpath}/futex/0001-futex-Implement-sys_futex_waitv.patch
-        ${patchpath}/futex/0002-futex-x86-Wire-up-sys_futex_waitv.patch
-        ${patchpath}/futex/0003-futex-Add-entry-point-for-FUTEX_WAIT_MULTIPLE-opcode.patch
-        # Wine
-        ${patchpath}/wine/0001-winesync-Introduce-the-winesync-driver-and-character.patch
-        # Graysky2 CPU patch
-        https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.15-5.16.patch)
+        ${manjaropath}/0413-bootsplash.gitpatch)
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -154,10 +117,6 @@ export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EP
 
 prepare(){
   cd ${srcdir}/linux-$pkgver
-
-  # fix NFSv4 mounting issue regression - FS#73838 / FS#73860
-  # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/patch/?id=6f2836341d8a39e1e000572b10959347d7e61fd9
-  patch -Rp1 -i ../0006_fix_NFSv4_mount_regression.diff
 
   # add upstream patch
   #  msg2 "Add upstream patch"
@@ -412,23 +371,6 @@ prepare(){
 
   sleep 2s
 
-  msg2 "Enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3"
-  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
-  scripts/config --disable CONFIG_CC_OPTIMIZE_FOR_SIZE
-  scripts/config --enable CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
-
-  sleep 2s
-
-  msg2 "Enable AMD Processor P-State driver"
-  scripts/config --enable CONFIG_X86_AMD_PSTATE
-
-  sleep 2s
-
-  msg2 "Enable Winesync"
-  scripts/config --enable CONFIG_WINESYNC
-
-  sleep 2s
-
   msg2 "Enable Bootup splash screen"
   scripts/config --enable CONFIG_BOOTSPLASH
 
@@ -486,7 +428,7 @@ build(){
 }
 
 _package(){
-  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support), AMD-Pstate, AMD64, Block, CPU, Futex, Wine and kernel_compiler_patch patch'
+  pkgdesc='The Linux kernel and modules with Manjaro patches (Bootsplash support)'
   depends=(coreutils kmod initramfs mkinitcpio)
   optdepends=('wireless-regdb: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices'
@@ -600,7 +542,7 @@ _package-headers(){
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-sha256sums=('f3aa717243051f3fcca90ebfe26fe5c3a596c2f6047846e8d1724ea90df77b07'
+sha256sums=('d75bd9579c4b318e6162e21c591878fd37efda0f79c5cdd0dc4eb9ea9dfc4fa8'
             '2a14b0c90f274446ae0b724f9d8cf6bc02b704dc22037ce3725ad53c5e335bee'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             'e2823eff3355b7c88a3fa327ea2f84f23cbd36569e0a5f0f76599023f63a52ca'
@@ -608,6 +550,7 @@ sha256sums=('f3aa717243051f3fcca90ebfe26fe5c3a596c2f6047846e8d1724ea90df77b07'
             '76701599bbafa49b90ccb073ef29ce2dc3731566e8fa852bd1e9e7796e184754'
             'a2a0a0542055a6a921542fbb05cedb6eb6f3d3fb0c038bfb2304bfd3931a0f71'
             '7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978'
+            '844e66a95d7df754c55ac2f1ce7e215b1e56e20ca095462d926a993d557b20e0'
             'd9330ea593829a6ef3b824db9570253280cbff7da2b4beb47cbc037824d1a29b'
             '5e804e1f241ce542f3f0e83d274ede6aa4b0539e510fb9376f8106e8732ce69b'
             'e8e6120035977903a7117ba215809b9b162b64a789848107513f219180baaada'
@@ -629,30 +572,4 @@ sha256sums=('f3aa717243051f3fcca90ebfe26fe5c3a596c2f6047846e8d1724ea90df77b07'
             'e9f22cbb542591087d2d66dc6dc912b1434330ba3cd13d2df741d869a2c31e89'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
-            '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            '0f687dcbbecba41f624b03fb544082d5587e722b4920321bfd36ac61d038b8ea'
-            'd9d121b7620f6c374fc0a793b33890ba25617e345236b09d1f6e5910344835f0'
-            '98d29e68a9f970defab137d6058f75209efdc2739e06241a5b26f1b58ff54409'
-            'ade211013109c6cfc1c7a213f68efbe6487d038d3a26352de7bd48e3d8757ab8'
-            'd399a3b76155ecfbf124532696a32f174e50237a8a057f182ae33d8b3bb3036d'
-            '78c55f6223350bf700d4a435d12d94542d6caedaf67676ca23b03515807b8990'
-            '98b995784c9180304de9fb268a42d2f371ce97312ba0003a5424994d89c26d43'
-            'f13ecee1c705d4282126a48b75fe97be04599ef347818b1a44d9190465cf4187'
-            '7aeb32e413bb0ce78124af8b48bfcf08fc7f9a2bae47d3f2cf120225d318d5a0'
-            '07f2de483a69073ff0346e58e729618f9b4d1fe691b24a74f597519488925209'
-            'a353c60f990168dfdb301aad65539c00aa19a1b39290c2ad2cec796e667e431e'
-            '44808ec8f0e5f748781c45c45b874371357e45fd833c18bbffb0fe15a5d52b82'
-            '542f86b5fd00c9cb692c5533efbebb14cf9adfc7b8ae683b2dedadcb079cba5b'
-            '3fbb1429afcdd874c0168f2f4b9e6ae11f81ffb47e447723eef038bab2c3e928'
-            'e9527ad81d5b1821a7b17c56cb3abaec85785563f51e448cb3c06f1c68e2966f'
-            'b3434b546e4bd6b62c64685da1a7ecfaf6d3b6172b3ab0c217c6a998a68b2368'
-            'b75c8a1721dda647496da98eea65c94f796667f8dee2f75a08e12dbbb2bed09a'
-            '3f37ca67531f98821c7c463e1938b778d5df640f29a2c8002ad5482277736069'
-            'a6a5d7d24966db0e0bfaa41821d48952e2242439a6a6688e3931464d0335d122'
-            '051cbbbebaab19743a549033907dc3eb607e4db8813f8a22d8348b6ddab61d15'
-            'fefdf9ba2de8d0e47762cb62bb1c5203f628d24591d3b2790da7107362297573'
-            '23958b10de61714b68d5f908f996d736ddf673a66852bcc9d92a34896e6575b8'
-            'a63bcaa5425c0a689ad095ac7fb308284dbc46c70ac1d3c02d1953b6bad00c3e'
-            'a22bbaad5447a0f0c3870be1791d00fb3712ba265ad5a3b04ecbfa1020618359'
-            '3f58fa4e0b63b97643054888750732c96ecce38ca6830e561d9c64efe4bf9553'
-            '2893ca70c1812f98cbf1ea1ed0abac7b70c91b21f07c4f6c1816a769bcc34909')
+            '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef')
